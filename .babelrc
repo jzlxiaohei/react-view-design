@@ -1,0 +1,64 @@
+{
+  "presets": [
+    [
+      "es2015"
+    ],
+    "stage-2",
+    "react"
+  ],
+  "plugins": [
+    ["import", { "libraryName": "antd", "style": "css" }],
+    "transform-decorators-legacy",
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }],
+    ["module-resolver", {
+      "alias": {
+        "comps": "./src/components",
+        "infra": "./src/infra",
+        "globals": "./src/globals",
+        "config": "./src/config",
+        "utils": "./src/utils",
+        "pages": "./src/pages",
+        "const": "./src/constants",
+        "widget": "./src/widget",
+        "hoc": "./src/hoc"
+      }
+    }]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types",
+        ["module-resolver", {
+          "alias": {
+            "config": "./src/config/production"
+          }
+        }]
+      ]
+    },
+    "staging": {
+      "plugins": [
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types",
+        ["module-resolver", {
+          "alias": {
+            "config": "./src/config/staging"
+          }
+        }]
+      ]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel",
+         ["module-resolver", {
+          "alias": {
+            "config": "./src/config/development"
+          }
+        }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,50 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# App specific
+
+node_modules/
+.tmp
+dist
+npm-debug.log
+tmp/
+log/
+db/
+flow-typed/
+
+config/database.yml
+config/secrets.yml
+
+public/assets
+config/settings/qiniu_settings.yml
+node_modules/
+.idea
+# Vim
+.swap
+*.swp
+/qrconfig-assets.json
+/qrconfig.json
+dist
+flow-typed
+.happypack
