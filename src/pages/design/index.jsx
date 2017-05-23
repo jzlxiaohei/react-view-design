@@ -4,10 +4,12 @@ import { observer } from 'mobx-react';
 import { action, extendObservable } from 'mobx';
 import { Tree } from 'antd';
 import _ from 'lodash';
+import ConfirmDelete from 'comps/common/ConfirmDelete';
 import { ModelContainer } from 'widget/WidgetMainContainer';
 import registerTable from 'globals/registerTable';
 import 'widget/registerWidget';
 import '../../edit-widget/registerWidgetEditor';
+import './index.scss';
 
 const TreeNode = Tree.TreeNode;
 
@@ -39,25 +41,16 @@ class DesignPage extends React.Component {
     model.setSelected(true);
   });
 
+  handelRemoveModel = action((model) => {
+    if (model.parentContainer) {
+      model.parentContainer.remove(model);
+      this.currentSelectedModel = model.parentContainer;
+    }
+  })
 
   renderShowArea(model) {
     const ShowComp = registerTable.getShowComp(model.viewType);
     return <ShowComp model={model} htmlMode="design" />;
-    /* return (
-      <div className="show-area">
-        {
-          model.children.map((item, index) => {
-            const ShowComp = registerTable.getShowComp(item.viewType);
-            return (
-              <ShowComp
-                key={index} model={item} htmlMode="design"
-                onClick={(e) => this.handleSelectShowComp(e, item)}
-              />
-            );
-          })
-        }
-      </div>
-    );*/
   }
 
   handleViewTypeClick = (viewType) => {
@@ -71,15 +64,24 @@ class DesignPage extends React.Component {
     const viewType = model.viewType;
     const EditComp = registerTable.getEditComp(viewType);
     if (!EditComp) {
-      console.log(11);
       return null; // TODO: defaultEditor
     }
     return (
       <EditComp
+        onRemove={this.handelRemoveModel}
         model={model}
         viewTypes={registerTable.getViewTypes()}
         createModelInstanceWithId={this.createModelInstanceWithId}
       />
+    );
+  }
+
+  renderTreeNodeTitle(model) {
+    return (
+      <span>
+        {model.id}
+        <ConfirmDelete onConfirm={() => this.handelDeleteModel(model)} />
+      </span>
     );
   }
 
@@ -133,9 +135,14 @@ class DesignPage extends React.Component {
     return (
       <div className="design-page">
         <div className="flex-container">
-          {this.renderShowArea(this.mainContainer)}
+          <div className="phone-simulator-375">
+            {this.renderShowArea(this.mainContainer)}
+          </div>
+          <div className="model-tree-area">
+            <div>对象树</div>
+            {this.renderModelTree(this.mainContainer)}
+          </div>
           {this.renderEditArea(this.currentSelectedModel)}
-          {this.renderModelTree(this.mainContainer)}
         </div>
       </div>
     );

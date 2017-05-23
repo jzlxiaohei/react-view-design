@@ -4,12 +4,14 @@ import { observer } from 'mobx-react';
 import { FormInput, message } from 'comps/form';
 import { Button } from 'antd';
 import { ModelPicture } from 'widget/Picture';
+import DefaultModelEdit from 'comps/defaultModelEdit';
 
 @observer
 class EditPicture extends React.Component {
 
   static propTypes = {
     model: PropTypes.instanceOf(ModelPicture).isRequired,
+    onRemove: PropTypes.func,
   }
 
   handleAutoSizeImg = () => {
@@ -29,6 +31,7 @@ class EditPicture extends React.Component {
     const model = this.props.model;
     return (
       <div className="edit-picture">
+        <DefaultModelEdit model={model} onRemove={this.props.onRemove} />
         <Button type="primary" onClick={this.handleAutoSizeImg}>调整图片到原始比例</Button>
         <FormInput label="图片地址" model={model} path="attr.url" />
         <FormInput label="链接地址" model={model} path="attr.link" />

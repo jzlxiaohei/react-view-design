@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { runInAction } from 'mobx';
 import _ from 'lodash';
-import { Input } from 'antd';
+import { Input, Icon, Popover } from 'antd';
 import FormItemWrapper from './FormItemWrapper';
 import CommonExcludedProps from './constants/CommonExcluedProps';
 
@@ -14,7 +14,12 @@ class FormInput extends React.Component {
     label: PropTypes.string,
     model: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
+    enableDetailEdit: PropTypes.bool,
   };
+
+  static defaultProps = {
+    enableDetailEdit: true,
+  }
 
   handleChange = (e) => {
     runInAction('change by input value', () => {
@@ -26,17 +31,36 @@ class FormInput extends React.Component {
     }
   };
 
+
+
   render() {
-    const inputProps = _.omit(this.props, CommonExcludedProps);
+    const inputProps = _.omit(this.props, CommonExcludedProps, 'enableDetailEdit');
+    const value = _.get(this.props.model, this.props.path);
     return (
       <FormItemWrapper
         label={this.props.label} formItemProps={this.props.formItemProps}
         model={this.props.model} path={this.props.path}
       >
-        <Input
-          {...inputProps}
-          value={_.get(this.props.model, this.props.path)} onChange={this.handleChange}
-        />
+        <div>
+          <Input
+            {...inputProps}
+            value={value} onChange={this.handleChange}
+          />
+          {
+            this.props.enableDetailEdit ? (
+              <Popover
+                title="详细编辑"
+                trigger="click"
+                overlayClassName="comp_form-input-popover-edit"
+                content={
+                  <Input type="textarea" autosize={{ minRows: 3 }} value={value} onChange={this.handleChange} />
+                }
+              >
+                <Icon className="trigger-detail-icon" type="down-circle-o" />
+              </Popover>
+            ) : null
+          }
+        </div>
       </FormItemWrapper>
     );
   }

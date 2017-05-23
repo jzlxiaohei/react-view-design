@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Icon, Popover } from 'antd';
 // import registerTable from 'globals/registerTable';
 import WidgetBase from 'widget/WidgetBase';
+import DefaultModelEdit from 'comps/defaultModelEdit';
 
 @observer
 class Container extends React.Component {
@@ -12,6 +13,7 @@ class Container extends React.Component {
     model: PropTypes.instanceOf(WidgetBase).isRequired,
     viewTypes: PropTypes.array.isRequired,
     createModelInstanceWithId: PropTypes.func.isRequired,
+    onRemove: PropTypes.func,
   }
 
   handleViewTypeClick = (viewType) => {
@@ -39,10 +41,12 @@ class Container extends React.Component {
   }
 
   render() {
+    const { model, onRemove } = this.props;
     return (
       <div className="edit-container">
+        <DefaultModelEdit model={model} onRemove={onRemove} />
         <Popover trigger="click" title="添加子控件" content={this.renderChildComponent()}>
-          <Icon type="plus" />
+          <Icon type="plus" /> 添加子控件
         </Popover>
       </div>
     );

@@ -17,6 +17,7 @@ class WidgetBase {
       selected: false,
       children: [],
       isContainer: true,
+      parentContainer: null,
     });
     this.init();
   }
@@ -64,12 +65,21 @@ class WidgetBase {
     if (!(child instanceof WidgetBase)) {
       throw new Error('child must be subClass of WidgetBase');
     }
+    child.parentContainer = this; // eslint-disable-line no-param-reassign
     this.children.push(child);
   }
 
   @action
   removeByIndex(index) {
     this.children.splice(index, 1);
+  }
+
+  @action
+  remove(model) {
+    const index = _.findIndex(this.children, model);
+    if (index !== -1) {
+      this.removeByIndex(index);
+    }
   }
 
   getAttrConfig() {

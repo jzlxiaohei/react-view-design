@@ -1,0 +1,12 @@
+$phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
+
+.design-page {
+  .phone-simulator-375 {
+    width: $phoneWidth;
+    height: 667px;
+    outline: 1px solid #999;
+    transform: translateZ(0);
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}

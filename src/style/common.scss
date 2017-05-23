@@ -1,3 +1,73 @@
 .flex-container{
   display: flex;
 }
+.danger-action {
+  color: #f50;
+}
+
+@mixin marginAtomic($number) {
+  .mt-#{$number} {
+    margin-top: $number*1px !important;
+  }
+
+  .mb-#{$number} {
+    margin-bottom: $number*1px !important;
+  }
+
+  .mtb-#{$number} {
+    margin: $number*1px 0 !important;
+  }
+
+  .ml-#{$number} {
+    margin-left: $number*1px !important;
+  }
+
+  .mr-#{$number} {
+    margin-right: $number*1px !important;
+  }
+
+  .mlr-#{$number} {
+    margin: 0 $number*1px !important;
+  }
+
+  .m-#{$number} {
+    margin: $number*1px !important;
+  }
+}
+
+@mixin fontSizeAtomic($number) {
+  .fs-#{$number} {
+    font-size: $number*1px !important;
+  }
+}
+
+@include marginAtomic(5);
+@include marginAtomic(10);
+@include marginAtomic(15);
+@include marginAtomic(20);
+
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right
+}
+.hide {
+  display: none !important;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+}
