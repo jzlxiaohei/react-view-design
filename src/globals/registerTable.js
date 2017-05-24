@@ -39,18 +39,23 @@ class RegisterTable {
     return Object.keys(this.modelShowPairTable);
   }
 
-  getModel(viewType) {
+  getShowTable() {
+    return this.modelShowPairTable;
+  }
+
+  _getShowConfig(viewType) {
     if (!(viewType in this.modelShowPairTable)) {
       throw new Error(`viewType: ${viewType} not found!`);
     }
-    return this.modelShowPairTable[viewType].Model;
+    return this.modelShowPairTable[viewType];
+  }
+
+  getModel(viewType) {
+    return this._getShowConfig(viewType).Model;
   }
 
   getShowComp(viewType) {
-    if (!(viewType in this.modelShowPairTable)) {
-      throw new Error(`viewType: ${viewType} not found!`);
-    }
-    return this.modelShowPairTable[viewType].ShowComp;
+    return this._getShowConfig(viewType).ShowComp;
   }
 
   getEditComp(viewType) {

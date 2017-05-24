@@ -75,7 +75,7 @@ class DesignPage extends React.Component {
       <EditComp
         onRemove={this.handelRemoveModel}
         model={model}
-        viewTypes={registerTable.getViewTypes()}
+        viewTypesConfig={registerTable.getShowTable()}
         createModelInstanceWithId={this.createModelInstanceWithId}
       />
     );
