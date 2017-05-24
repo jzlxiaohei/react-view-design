@@ -31,8 +31,6 @@ class FormInput extends React.Component {
     }
   };
 
-
-
   render() {
     const inputProps = _.omit(this.props, CommonExcludedProps, 'enableDetailEdit');
     const value = _.get(this.props.model, this.props.path);
@@ -41,7 +39,7 @@ class FormInput extends React.Component {
         label={this.props.label} formItemProps={this.props.formItemProps}
         model={this.props.model} path={this.props.path}
       >
-        <div>
+        <div className="input-with-detail-edit">
           <Input
             {...inputProps}
             value={value} onChange={this.handleChange}

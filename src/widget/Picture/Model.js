@@ -20,7 +20,6 @@ class Picture extends WidgetBase {
     return {
       width: { value: 375 },
       height: { value: 375 },
-      position: { value: 'relative' },
     };
   }
 

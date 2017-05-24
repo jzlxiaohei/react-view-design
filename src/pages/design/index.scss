@@ -1,6 +1,9 @@
 $phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
 
 .design-page {
+  .model-tree-area{
+    width: 300px;
+  }
   .phone-simulator-375 {
     width: $phoneWidth;
     height: 667px;
@@ -8,5 +11,17 @@ $phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
     transform: translateZ(0);
     overflow-x: hidden;
     overflow-y: scroll;
+    position: relative;
+  }
+  .model-edit-area {
+    .ant-form-item-label{
+      flex: 1;
+    }
+    .ant-input {
+      width: 200px;
+    }
+    .ant-select {
+      width: 200px;
+    }
   }
 }

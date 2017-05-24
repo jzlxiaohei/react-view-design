@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { FormInput, message } from 'comps/form';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { ModelPicture } from 'widget/Picture';
 import DefaultModelEdit from 'comps/defaultModelEdit';
+import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
 
 @observer
 class EditPicture extends React.Component {
@@ -33,8 +33,7 @@ class EditPicture extends React.Component {
       <div className="edit-picture">
         <DefaultModelEdit model={model} onRemove={this.props.onRemove} />
         <Button type="primary" onClick={this.handleAutoSizeImg}>调整图片到原始比例</Button>
-        <FormInput label="图片地址" model={model} path="attr.url" />
-        <FormInput label="链接地址" model={model} path="attr.link" />
+        <DefaultPropertyEdit model={model} />
       </div>
     );
   }

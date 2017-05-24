@@ -27,6 +27,7 @@ function showView(config = {}) {
         this.state = {
           x: 0, y: 0,
         };
+        this.isDragging = false;
       }
 
       static propTypes = {
@@ -50,16 +51,12 @@ function showView(config = {}) {
             if (newPos == oldPos) return;
             if (newPos == 'absolute') {
               const { left, top } = this.dragContainer.getBoundingClientRect();
-              this.setState({
-                x: left,
-                y: top,
-              });
+              this.state.x = left;
+              this.state.y = top;
             }
             if (oldPos == 'absolute') {
-              this.setState({
-                x: 0,
-                y: 0,
-              });
+              this.state.x = 0;
+              this.state.y = 0;
             }
           },
         );
@@ -80,8 +77,14 @@ function showView(config = {}) {
           processStyle = this.props.htmlMode === 'preview' ? previewStyle : designStyle;
         }
 
+        if (!this.isDragging) {
+          const { left, top } = model.style;
+          if (left) this.state.x = parseInt(left, 10);
+          if (top) this.state.y = parseInt(top, 10);
+        }
+
         let defaultStyle = {};
-        if (this.isDraggable) {
+        if (this.isDraggable()) {
           defaultStyle = {
             top: this.state.y,
             left: this.state.x,
@@ -103,9 +106,23 @@ function showView(config = {}) {
         };
       }
 
+      handleDragEnd = () => {
+        const model = this.props.model;
+        this.isDragging = false;
+        model.assignStyle({
+          top: this.state.y,
+          left: this.state.x,
+        });
+      }
+
+      handleDragStart = () => {
+        this.isDragging = true;
+      }
+
       handleDrag = (e, data) => {
         if (!this.isDraggable()) return;
         const { x, y } = this.state;
+        // const model = this.props.model;
         this.setState({
           x: x + data.deltaX,
           y: y + data.deltaY,
@@ -125,6 +142,8 @@ function showView(config = {}) {
             <DraggableCore
               handle=".drag-handle"
               onDrag={this.handleDrag}
+              onStart={this.handleDragStart}
+              onStop={this.handleDragEnd}
             >
               <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom} >
                 <div

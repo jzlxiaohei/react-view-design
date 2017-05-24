@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { action, extendObservable } from 'mobx';
-import { Tree } from 'antd';
+import { Tree, Tag } from 'antd';
 import _ from 'lodash';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
 import { ModelContainer } from 'widget/WidgetMainContainer';
@@ -29,6 +29,11 @@ class DesignPage extends React.Component {
       currentSelectedModel: this.mainContainer,
     });
     this.idSeq = 1;
+    this.initMockModel();
+  }
+
+  initMockModel() {
+    this.mainContainer.push(this.createModelInstanceWithId('picture'));
   }
 
   createModelInstanceWithId = (viewType, id) => {
@@ -123,6 +128,8 @@ class DesignPage extends React.Component {
   renderModelTree(model) {
     return (
       <Tree
+        autoExpandParent
+        expandedKeys={[this.currentSelectedModel.id]}
         showLine
         onSelect={this.handleSelectTreeNode}
       >
@@ -135,14 +142,16 @@ class DesignPage extends React.Component {
     return (
       <div className="design-page">
         <div className="flex-container">
+          <div className="model-tree-area">
+            <Tag color="blue">对象树</Tag>
+            {this.renderModelTree(this.mainContainer)}
+          </div>
           <div className="phone-simulator-375">
             {this.renderShowArea(this.mainContainer)}
           </div>
-          <div className="model-tree-area">
-            <div>对象树</div>
-            {this.renderModelTree(this.mainContainer)}
+          <div className="model-edit-area">
+            {this.renderEditArea(this.currentSelectedModel)}
           </div>
-          {this.renderEditArea(this.currentSelectedModel)}
         </div>
       </div>
     );

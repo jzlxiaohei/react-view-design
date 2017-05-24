@@ -25,22 +25,42 @@ class WidgetBase {
   /**
    * { title: 'label', type: 'color|text|number', value: ''}
    */
-  getDefaultStyleConfig() {
+  getCommonStyleConfig() {
     return {
       width: { value: 375 },
       height: { value: 100 },
       color: { type: 'color', title: '字体颜色' },
+      position: {
+        title: '位置模式',
+        options: [
+          { value: 'relative', text: 'relative(占位拖拽)' },
+          { value: 'absolute', text: 'absolute(不占位拖拽)' },
+        ],
+      },
+    };
+  }
+
+  getCommonAttrConfig() {
+    return {
+      id: { title: '自定义ID(谨慎更改)' },
     };
   }
 
   @action
   init() {
     if (!this.initAttrConfig) throw new Error('initAttrConfig method is required');
-    this.attrConfig = this.initAttrConfig();
-    this.styleConfig = this.initStyleConfig ? this.initStyleConfig() : this.getDefaultStyleConfig();
+    this.attrConfig = _.assign(
+      this.getCommonAttrConfig(),
+      this.initAttrConfig(),
+    );
+    this.styleConfig = _.assign(
+      this.getCommonStyleConfig(),
+      this.initStyleConfig ? this.initStyleConfig() : {},
+    );
     const style = this.getDefaultValueByConfig(this.styleConfig);
-    const attr = this.getDefaultValueByConfig(this.attrConfig);
+    const attr = {};
     attr.id = attr.id || this.id;
+    _.assign(attr, this.getDefaultValueByConfig(this.attrConfig));
     this.assignStyle(style);
     this.assignAttr(attr);
   }

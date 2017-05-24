@@ -3,15 +3,22 @@
 }
 .comp_form-wrapper{
   display: flex;
-  .ant-input {
-    width: 200px;
-  }
+  // .ant-input {
+  //   width: 200px;
+  // }
   &.ant-form-item {
     margin-bottom: 3px;
   }
   .trigger-detail-icon {
     font-size: 20px;
     margin-left: 8px;
+  }
+  .input-with-detail-edit{
+    position: relative;
+    .anticon{
+      position: absolute;
+      top: 6px;
+    }
   }
 }
 .comp_form-input-popover-edit {
