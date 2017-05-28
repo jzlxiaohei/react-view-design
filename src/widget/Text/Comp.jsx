@@ -14,17 +14,16 @@ class ShowPicture extends React.Component {
   render() {
     const props = this.props;
     const { attr } = props;
-    const link = attr.link;
     return (
       <div
-        className="comp_show-picture"
+        className="comp_show-text"
         {...props.otherProps}
         style={props.style}
         id={props.id}
         {...props.dataAttr}
       >
         {
-          this.model.attr.content.map(
+          attr.content.map(
             (text, index) => <div className="text" key={index}>{text}</div>,
           )
         }
