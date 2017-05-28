@@ -25,7 +25,7 @@ class DefaultModelEdit extends React.Component {
     const { noDelete, model } = this.props;
     return (
       <div className="mtb-10">
-        <Tag>{model.id}</Tag>
+        <Tag color="red">{model.id}</Tag>
         {
           (noDelete || !model.parentContainer) ?
             null :

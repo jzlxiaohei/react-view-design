@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { Icon, Popover } from 'antd';
+import { Icon, Popover, Card, Tag } from 'antd';
 // import registerTable from 'globals/registerTable';
 import WidgetBase from 'widget/WidgetBase';
 import DefaultModelEdit from 'comps/defaultModelEdit';
@@ -16,7 +16,7 @@ class Container extends React.Component {
 
   static propTypes = {
     model: PropTypes.instanceOf(WidgetBase).isRequired,
-    viewTypesConfig: PropTypes.array.isRequired,
+    viewTypesConfig: PropTypes.object.isRequired,
     createModelInstanceWithId: PropTypes.func.isRequired,
     onRemove: PropTypes.func,
   }
@@ -56,11 +56,30 @@ class Container extends React.Component {
     return children.map(child => {
       return (
         <div key={child.id}>
-          {child.id}
+          <Tag className="child-id">{child.id}</Tag>
           <ConfirmDelete onConfirm={() => this.handelDeleteModel(child)} />
         </div>
       );
     });
+  }
+
+  renderAddChild() {
+    const { model } = this.props;
+    if (model.isContainer) {
+      return (
+        <Popover
+          trigger="click"
+          title="添加子控件"
+          overlayClassName="edit-container-add-child"
+          content={this.renderPopoverAddChildComponent()}
+        >
+          <div className="add-child">
+            <Icon type="plus" /> 添加子控件
+          </div>
+        </Popover>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -68,13 +87,11 @@ class Container extends React.Component {
     return (
       <div className="edit-container">
         <DefaultModelEdit model={model} onRemove={onRemove} />
-        <Popover trigger="click" title="添加子控件" overlayClassName="edit-container-add-child" content={this.renderPopoverAddChildComponent()}>
-          <div className="add-child">
-            <Icon type="plus" /> 添加子控件
-          </div>
-        </Popover>
+        {this.renderAddChild()}
         <DefaultPropertyEdit model={model} />
-        {this.renderChildren(model.children)}
+        <Card title="子组件" className="edit-child-list">
+          {this.renderChildren(model.children)}
+        </Card>
       </div>
     );
   }

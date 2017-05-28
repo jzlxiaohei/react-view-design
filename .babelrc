@@ -23,6 +23,7 @@
         "pages": "./src/pages",
         "const": "./src/constants",
         "widget": "./src/widget",
+        "editWidget": "./src/edit-widget",
         "hoc": "./src/hoc"
       }
     }]

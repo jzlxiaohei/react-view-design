@@ -8,7 +8,8 @@ import ConfirmDelete from 'comps/common/ConfirmDelete';
 import { ModelContainer } from 'widget/WidgetMainContainer';
 import registerTable from 'globals/registerTable';
 import 'widget/registerWidget';
-import '../../edit-widget/registerWidgetEditor';
+import DefaultEditWidget from 'editWidget/DefaultEditWidget';
+import 'editWidget/registerWidgetEditor';
 import './index.scss';
 
 const TreeNode = Tree.TreeNode;
@@ -68,16 +69,17 @@ class DesignPage extends React.Component {
     // find selected model
     const viewType = model.viewType;
     const EditComp = registerTable.getEditComp(viewType);
+    const props = {
+      onRemove: this.handelRemoveModel,
+      model,
+      viewTypesConfig: registerTable.getShowTable(),
+      createModelInstanceWithId: this.createModelInstanceWithId,
+    };
     if (!EditComp) {
-      return null; // TODO: defaultEditor
+      return <DefaultEditWidget {...props} />;
     }
     return (
-      <EditComp
-        onRemove={this.handelRemoveModel}
-        model={model}
-        viewTypesConfig={registerTable.getShowTable()}
-        createModelInstanceWithId={this.createModelInstanceWithId}
-      />
+      <EditComp {...props} />
     );
   }
 
