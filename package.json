@@ -107,12 +107,14 @@
     "query-string": "^4.2.3",
     "react": "^15.5.0",
     "react-codemirror": "^0.3.0",
+    "react-color": "^2.11.7",
     "react-dom": "^15.5.0",
     "react-draggable": "^2.2.6",
     "react-hot-loader": "^3.0.0-beta.6",
     "scp2": "^0.5.0",
     "sequelize": "^3.30.4",
     "sortablejs": "^1.5.0",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "swipejs": "^2.2.6"
   }
 }
