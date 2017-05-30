@@ -15,15 +15,22 @@ class FormInput extends React.Component {
     model: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
     enableDetailEdit: PropTypes.bool,
+    valueModelToControl: PropTypes.func,
+    valueControlToModel: PropTypes.func,
   };
 
   static defaultProps = {
     enableDetailEdit: true,
+    valueModelToControl: _.identity,
+    valueControlToModel: _.identity,
   }
 
   handleChange = (e) => {
     runInAction('change by input value', () => {
-      _.set(this.props.model, this.props.path, e.target.value);
+      _.set(
+        this.props.model,
+        this.props.path, this.props.valueControlToModel(e.target.value),
+      );
     });
 
     if (this.props.onChange) {
@@ -33,7 +40,8 @@ class FormInput extends React.Component {
 
   render() {
     const inputProps = _.omit(this.props, CommonExcludedProps, 'enableDetailEdit');
-    const value = _.get(this.props.model, this.props.path);
+    const originValue = _.get(this.props.model, this.props.path);
+    const value = this.props.valueModelToControl(originValue);
     return (
       <FormItemWrapper
         label={this.props.label} formItemProps={this.props.formItemProps}

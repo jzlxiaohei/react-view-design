@@ -9,7 +9,10 @@ class DefaultPropertyEdit extends React.Component {
 
   static propTypes = {
     model: PropTypes.instanceOf(WidgetBase).isRequired,
-
+    ignoreFileds: PropTypes.shape({
+      attr: PropTypes.arrayOf(PropTypes.string),
+      style: PropTypes.arrayOf(PropTypes.string),
+    }),
   }
 
   handleAddStyleItem = (item) => {
@@ -22,15 +25,20 @@ class DefaultPropertyEdit extends React.Component {
   }
 
   render() {
-    const model = this.props.model;
+    const { model, ignoreFileds = [] } = this.props;
     return (
       <div className="default-edit-style-attr">
-        <EditProperty properties={model.attr} propertyConfig={model.attrConfig} />
+        <EditProperty
+          properties={model.attr}
+          propertyConfig={model.attrConfig}
+          ignoreFileds={ignoreFileds.attr}
+        />
         <EditProperty
           properties={model.style}
           propertyConfig={model.styleConfig}
           allowedAdd
           onAddItem={this.handleAddStyleItem}
+          ignoreFileds={ignoreFileds.style}
         />
       </div>
     );

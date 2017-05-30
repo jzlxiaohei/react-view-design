@@ -1,5 +1,5 @@
 import registerTable from 'globals/registerTable';
-// import EditContainer from './Container';
+import EditText from './Text';
 import EditPicture from './Picture';
 
 function register() {
@@ -8,6 +8,7 @@ function register() {
   }
   // registerTable.registerEdit('container', EditContainer);
   registerTable.registerEdit('picture', EditPicture);
+  registerTable.registerEdit('text', EditText);
 }
 
 register();

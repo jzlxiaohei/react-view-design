@@ -29,6 +29,7 @@ class EditProperty extends React.Component {
     properties: mobxPropTypes.observableObject,
     propertyConfig: mobxPropTypes.observableObject,
     allowedAdd: PropTypes.bool,
+    ignoreFileds: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
@@ -95,11 +96,11 @@ class EditProperty extends React.Component {
   }
 
   render() {
-    const { propertyConfig, properties, allowedAdd } = this.props;
+    const { propertyConfig, properties, allowedAdd, ignoreFileds } = this.props;
     return (
       <div className="default-property-edit">
         {
-          _.keys(properties).map((key) => {
+          _.keys(_.omit(properties, ignoreFileds)).map((key) => {
             const configValue = toJS(propertyConfig[key]);
             if (configValue) {
               configValue.title = configValue.title || key;

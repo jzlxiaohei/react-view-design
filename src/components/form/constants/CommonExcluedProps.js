@@ -3,6 +3,8 @@ const CommonExcludedProps = [
   'formItemProps',
   'model',
   'path',
+  'valueModelToControl',
+  'valueControlToModel',
   'children',
 ];
 export default CommonExcludedProps;

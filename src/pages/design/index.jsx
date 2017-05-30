@@ -35,6 +35,7 @@ class DesignPage extends React.Component {
 
   initMockModel() {
     this.mainContainer.push(this.createModelInstanceWithId('picture'));
+    this.mainContainer.push(this.createModelInstanceWithId('text'));
   }
 
   createModelInstanceWithId = (viewType, id) => {

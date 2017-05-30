@@ -1,5 +1,3 @@
-import { action } from 'mobx';
-import _ from 'lodash';
 import WidgetBase from '../WidgetBase';
 
 
@@ -12,7 +10,7 @@ class Text extends WidgetBase {
 
   initAttrConfig() {
     return {
-      content: ['text'],
+      content: { value: ['text'] },
     };
   }
 

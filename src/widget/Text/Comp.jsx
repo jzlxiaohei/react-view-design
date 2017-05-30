@@ -3,7 +3,7 @@ import showView, { showViewPropTypes } from 'hoc/showView';
 
 
 @showView()
-class ShowPicture extends React.Component {
+class ShowEdit extends React.Component {
 
   static propTypes = {
     // model: PropTypes.instanceOf(Picture),
@@ -32,4 +32,4 @@ class ShowPicture extends React.Component {
   }
 }
 
-export default ShowPicture;
+export default ShowEdit;
