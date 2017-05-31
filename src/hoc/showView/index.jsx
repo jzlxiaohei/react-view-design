@@ -17,7 +17,7 @@ function previewStyle(style) {
   return px2rem(appendPx(style));
 }
 
-window.idRefMap = {};
+window.$idRefMap = {};
 
 function showView(config = {}) {
   return (ComposedComponent) => {
