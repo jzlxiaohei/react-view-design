@@ -17,7 +17,6 @@ class Text extends WidgetBase {
   initStyleConfig() {
     return {
       width: { value: 375 },
-      height: { value: 375 },
       textAlign: {
         title: '文字对齐',
         options: [

@@ -17,6 +17,8 @@ function previewStyle(style) {
   return px2rem(appendPx(style));
 }
 
+window.idRefMap = {};
+
 function showView(config = {}) {
   return (ComposedComponent) => {
     @observer
@@ -101,6 +103,7 @@ function showView(config = {}) {
           dataAttr: getDataCustomAttr(model.attr),
           modelChildren: model.children.toJS(),
           showViewProps: _.pick(this.props, showViewProps),
+          model: this.props.model,
           // model,
           // processStyle,
         };
@@ -155,12 +158,12 @@ function showView(config = {}) {
                 >
                   <Icon type="bars" />
                 </div>
-                <ComposedComponent {...props} />
+                <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
               </div>
             </DraggableCore>
           );
         }
-        return <ComposedComponent {...props} />;
+        return <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />;
       }
     }
     return ShowCompWrapper;
@@ -177,6 +180,7 @@ const showViewPropTypes = {
   modelChildren: PropTypes.array.isRequired,
   showViewProps: PropTypes.object.isRequired,
   otherProps: PropTypes.object,
+  model: PropTypes.object.isRequired,
 };
 
 export default showView;

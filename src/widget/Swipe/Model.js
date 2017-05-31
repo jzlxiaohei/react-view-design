@@ -1,20 +1,32 @@
 import WidgetBase from '../WidgetBase';
+import { ModelContainer } from '../Container';
 
-// TODO: just a container
-class Slide extends WidgetBase {
-  initAttrConfig() {
-    return {};
-  }
-}
+// class Slide extends WidgetBase {
+//   initAttrConfig() {
+//     return {};
+//   }
+// }
 
 class Swipe extends WidgetBase {
 
+  idSeq = 1;
+
+  initAttrConfig() {
+    return {};
+  }
+
   createSlide() {
-    return new Slide();
+    const slide = new ModelContainer();
+    slide.setId(`${this.id}-slide-${this.idSeq++}`);
+    slide.viewType = 'container';
+    slide.assignStyle({
+      background: 'red',
+    });
+    return slide;
   }
 
   push(child) {
-    if (!(child instanceof Slide)) {
+    if (!(child instanceof ModelContainer)) {
       throw new Error('use createSlide(), then pass to push function ');
     }
     super.push(child);

@@ -46,6 +46,10 @@ class WidgetBase {
     };
   }
 
+  getDomId() {
+    return this.attr.id || this.id;
+  }
+
   @action
   init() {
     if (!this.initAttrConfig) throw new Error('initAttrConfig method is required');
@@ -87,6 +91,7 @@ class WidgetBase {
     }
     child.parentContainer = this; // eslint-disable-line no-param-reassign
     this.children.push(child);
+    return child;
   }
 
   @action

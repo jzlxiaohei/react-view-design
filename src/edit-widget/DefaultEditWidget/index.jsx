@@ -19,11 +19,15 @@ class Container extends React.Component {
     viewTypesConfig: PropTypes.object.isRequired,
     createModelInstanceWithId: PropTypes.func.isRequired,
     onRemove: PropTypes.func,
+    onChildAdd: PropTypes.func,
   }
 
   handleViewTypeClick = (viewType) => {
     const instance = this.props.createModelInstanceWithId(viewType);
     this.props.model.push(instance);
+    if (this.props.onChildAdd) {
+      this.props.onChildAdd(instance, this.props.model);
+    }
   }
 
   renderPopoverAddChildComponent() {
@@ -66,15 +70,18 @@ class Container extends React.Component {
   render() {
     const { model, onRemove } = this.props;
     return (
-      <div className="edit-container">
+      <div className="default-edit-widget">
         <DefaultModelEdit model={model} onRemove={onRemove} />
-        <Popover trigger="click" title="添加子控件" overlayClassName="edit-container-add-child" content={this.renderPopoverAddChildComponent()}>
+        <Popover
+          trigger="click" title="添加子控件" overlayClassName="edit-container-add-child"
+          content={this.renderPopoverAddChildComponent()}
+        >
           <div className="add-child">
             <Icon type="plus" /> 添加子控件
           </div>
         </Popover>
         <DefaultPropertyEdit model={model} />
-        <Card title="子组件" className="edit-child-list">
+        <Card title="子组件" className="edit-child-list ml-20">
           {this.renderChildren(model.children)}
         </Card>
       </div>

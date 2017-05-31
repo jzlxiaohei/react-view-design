@@ -36,6 +36,10 @@ class DesignPage extends React.Component {
   initMockModel() {
     this.mainContainer.push(this.createModelInstanceWithId('picture'));
     this.mainContainer.push(this.createModelInstanceWithId('text'));
+    const swipeModel = this.mainContainer.push(this.createModelInstanceWithId('swipe'));
+    swipeModel.addSlide();
+    swipeModel.addSlide().assignStyle({ background: 'yellow' });
+    swipeModel.addSlide().assignStyle({ background: 'green' });
   }
 
   createModelInstanceWithId = (viewType, id) => {
@@ -56,6 +60,7 @@ class DesignPage extends React.Component {
   })
 
   renderShowArea(model) {
+    /* eslint-disable no-param-reassign*/
     const ShowComp = registerTable.getShowComp(model.viewType);
     return <ShowComp model={model} htmlMode="design" />;
   }
