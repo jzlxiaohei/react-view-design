@@ -8,4 +8,10 @@
     font-size: 40px;
     font-weight: bold;
   }
+
+}
+
+.show-view.selected {
+  outline: 2px dashed #000;
+  z-index: 9999;
 }

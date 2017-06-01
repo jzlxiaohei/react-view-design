@@ -140,6 +140,14 @@ function showView(config = {}) {
       render() {
         const props = this.getProps();
         const model = this.props.model;
+        let composedComponent = <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />;
+        if (this.props.htmlMode == 'design' && model.selected) {
+          composedComponent = (
+            <div className="show-view selected">
+              <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
+            </div>
+          );
+        }
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
           return (
             <DraggableCore
@@ -158,12 +166,12 @@ function showView(config = {}) {
                 >
                   <Icon type="bars" />
                 </div>
-                <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
+                {composedComponent}
               </div>
             </DraggableCore>
           );
         }
-        return <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />;
+        return composedComponent;
       }
     }
     return ShowCompWrapper;

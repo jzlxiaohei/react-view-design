@@ -26,6 +26,7 @@ class DesignPage extends React.Component {
     super(props);
     this.mainContainer = this.createModelInstanceWithId('container', 'main-container');
     this.mainContainer.setSelected(true);
+    this.mainContainer.assignStyle({ height: '' });
     extendObservable(this, {
       currentSelectedModel: this.mainContainer,
     });

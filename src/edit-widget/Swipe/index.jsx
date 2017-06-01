@@ -17,15 +17,20 @@ class EditSwipe extends React.Component {
 
 
   initSwipe = () => {
+    this.killSwipe();
     const id = this.props.model.getDomId();
     window.$idRefMap[id].initSwipe();
+  }
+
+  killSwipe = () => {
+    const id = this.props.model.getDomId();
+    window.$idRefMap[id].killSwipe();
   }
 
   addSlide = () => {
     const model = this.props.model;
     model.addSlide();
-    const id = model.getDomId();
-    window.$idRefMap[id].killSwipe();
+    this.initSwipe();
   }
 
   renderChildren(children) {
@@ -39,13 +44,20 @@ class EditSwipe extends React.Component {
     });
   }
 
+  handelRemove = (model) => {
+    if (this.props.onRemove) {
+      this.props.onRemove(model);
+    }
+    this.initSwipe();
+  }
+
   render() {
-    const { model, onRemove } = this.props;
+    const { model } = this.props;
     return (
       <div className="edit-swipe">
-        <DefaultModelEdit model={model} onRemove={onRemove} />
+        <DefaultModelEdit model={model} onRemove={this.handelRemove} />
         <Button type="primary" onClick={this.addSlide}>添加slide</Button>
-        <Button type="primary" onClick={this.initSwipe}>开始</Button>
+        <Button className="ml-15" type="primary" onClick={this.initSwipe}>初始化</Button>
         <DefaultPropertyEdit model={model} />
         <Card title="slides" className="edit-child-list ml-20">
           {this.renderChildren(model.children)}
