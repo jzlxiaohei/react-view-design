@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { observer, PropTypes as mobxPropTypes } from 'mobx-react';
 import { observable, toJS, action } from 'mobx';
-import { FormSelect, FormInput } from 'comps/form';
+import { FormSelect, FormInput, FormCheckbox } from 'comps/form';
 import { Select, Icon, Popover, Button } from 'antd';
 import './index.scss';
 
@@ -54,6 +54,13 @@ class EditProperty extends React.Component {
             return <Option key={option.value} text={text}>{text}</Option>;
           })}
         </FormSelect>
+      );
+    }
+    if (config.type === 'checkbox') {
+      return (
+        <FormCheckbox model={model} path={key}>
+          {config.title}
+        </FormCheckbox>
       );
     }
     return <FormInput label={config.title} model={model} path={key} />;

@@ -2,6 +2,7 @@
 import React from 'react';
 import registerTable from 'globals/registerTable';
 import showView, { showViewPropTypes } from 'hoc/showView';
+// import _ from 'lodash';
 import Swipe from 'swipejs';
 import style from './style.scss';
 // @showView({ style })
@@ -12,6 +13,7 @@ class ShowSwipe extends React.Component {
   static propTypes = {
     ...showViewPropTypes,
   }
+
 
   renderChild(childModel, index) {
     const viewType = childModel.viewType;
@@ -35,15 +37,16 @@ class ShowSwipe extends React.Component {
     const model = this.props.model;
     const domId = model.getDomId();
     const dom = document.getElementById(domId);
-    this.swipe = new Swipe(dom, {
+    const swipeOptions = {
       startSlide: 0,
-      auto: 3000,
+      auto: model.attr.play ? model.attr.playTime : false,
+      speed: 800,
       draggable: true,
-      autoRestart: false,
       continuous: true,
       disableScroll: true,
       stopPropagation: true,
-    });
+    };
+    this.swipe = new Swipe(dom, swipeOptions);
   }
 
   killSwipe = () => {

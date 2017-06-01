@@ -22,7 +22,7 @@ class FormItemWrapper extends React.Component {
     if (model && model.$hasRules && model.$hasRules()) {
       validMsg = model.$validState[path];
     }
-    const className = cn('comp_form-wrapper', this.props.formWrapperClassName);
+    const className = cn('comp_form-wrapper comp_form-checkbox', this.props.formWrapperClassName);
     return (
       <Form.Item
         className={className}

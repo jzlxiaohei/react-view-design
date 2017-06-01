@@ -92,6 +92,9 @@ function showView(config = {}) {
             left: this.state.x,
           };
         }
+        if (model.selected) {
+          defaultStyle.outline = '2px dashed #ccc';
+        }
         const modelStyle = _.assign({}, model.style, defaultStyle);
         const showViewProps = ['htmlMode', 'processStyle', 'processAttr'];
 
@@ -143,9 +146,7 @@ function showView(config = {}) {
         let composedComponent = <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />;
         if (this.props.htmlMode == 'design' && model.selected) {
           composedComponent = (
-            <div className="show-view selected">
-              <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
-            </div>
+            <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
           );
         }
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {

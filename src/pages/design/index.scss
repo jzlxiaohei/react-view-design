@@ -24,4 +24,7 @@ $phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
       width: 200px;
     }
   }
+  .comp_form-checkbox{
+    justify-content: flex-end;
+  }
 }

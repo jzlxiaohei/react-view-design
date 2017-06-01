@@ -1,4 +1,5 @@
 .select-model-drag-wrapper {
+  position: relative;
   .drag-handle {
     position: absolute;
     top: 0;
@@ -11,7 +12,7 @@
 
 }
 
-.show-view.selected {
-  outline: 2px dashed #000;
-  z-index: 9999;
-}
+// .show-view.selected {
+//   outline: 2px dashed #000;
+//   z-index: 9999;
+// }

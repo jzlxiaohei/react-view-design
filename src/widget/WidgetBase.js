@@ -74,7 +74,7 @@ class WidgetBase {
     const result = {};
     const keys = _.keys(config);
     keys.forEach(key => {
-      result[key] = config[key].value || '';
+      result[key] = ('value' in config[key]) ? config[key].value : '';
     });
     return result;
   }

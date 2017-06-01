@@ -131,6 +131,9 @@ module.exports = {
     publicPath: '/', // match the output `publicPath`
 
     port: devPort,
+
+    disableHostCheck: true,
+
   },
   resolve: {
     extensions: ['.js', '.jsx'],

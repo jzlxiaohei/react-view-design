@@ -2,14 +2,15 @@ import WidgetBase from '../WidgetBase';
 
 class Container extends WidgetBase {
 
-  initAttrConfig() {
-    return {};
+  constructor() {
+    super();
+    this.assignStyle({
+      position: 'relative',
+    });
   }
 
-  initStyleConfig() {
-    return {
-      position: 'relative',
-    };
+  initAttrConfig() {
+    return {};
   }
 }
 

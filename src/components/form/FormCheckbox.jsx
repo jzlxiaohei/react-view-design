@@ -15,7 +15,7 @@ class FormCheckbox extends React.Component {
     label: PropTypes.string,
     model: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
-    children: PropTypes.array,
+    children: PropTypes.node,
   };
 
   handleChange = (e) => {

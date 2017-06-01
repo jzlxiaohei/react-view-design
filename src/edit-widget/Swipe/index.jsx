@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { Button, Card, Tag } from 'antd';
 import { ModelSwipe } from 'widget/Swipe';
+import { FormCheckbox } from 'comps/form';
 import DefaultModelEdit from 'comps/defaultModelEdit';
 import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
@@ -16,10 +17,10 @@ class EditSwipe extends React.Component {
   }
 
 
-  initSwipe = () => {
+  initSwipe = (options) => {
     this.killSwipe();
     const id = this.props.model.getDomId();
-    window.$idRefMap[id].initSwipe();
+    window.$idRefMap[id].initSwipe(options);
   }
 
   killSwipe = () => {
@@ -51,14 +52,28 @@ class EditSwipe extends React.Component {
     this.initSwipe();
   }
 
+  handelPlay = (value) => {
+    this.initSwipe({
+      auto: value,
+    });
+  }
+
   render() {
     const { model } = this.props;
     return (
       <div className="edit-swipe">
         <DefaultModelEdit model={model} onRemove={this.handelRemove} />
         <Button type="primary" onClick={this.addSlide}>添加slide</Button>
-        <Button className="ml-15" type="primary" onClick={this.initSwipe}>初始化</Button>
-        <DefaultPropertyEdit model={model} />
+        <Button className="ml-15" type="primary" onClick={this.initSwipe}>从新初始化</Button>
+        <FormCheckbox model={model} path="attr.play" onChange={this.handelPlay}>
+          是否开启动画
+        </FormCheckbox>
+        <DefaultPropertyEdit
+          model={model}
+          ignoreFileds={{
+            attr: ['play'],
+          }}
+        />
         <Card title="slides" className="edit-child-list ml-20">
           {this.renderChildren(model.children)}
         </Card>
