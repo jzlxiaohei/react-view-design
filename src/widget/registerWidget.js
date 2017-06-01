@@ -3,6 +3,7 @@ import { ModelContainer, CompContainer } from './Container';
 import { ModelPicture, CompPicture } from './Picture';
 import { ModelText, CompText } from './Text';
 import { ModelSwipe, CompSwipe } from './Swipe';
+import { ModelModal, CompModal } from './Modal';
 
 
 function register() {
@@ -13,6 +14,7 @@ function register() {
   registerTable.register('picture', ModelPicture, CompPicture, { title: '图片' });
   registerTable.register('text', ModelText, CompText, { title: '文本' });
   registerTable.register('swipe', ModelSwipe, CompSwipe, { title: '轮播组件' });
+  registerTable.register('modal', ModelModal, CompModal, { title: '弹窗' });
 }
 
 register();

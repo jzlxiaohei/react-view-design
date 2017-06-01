@@ -34,12 +34,11 @@ class ShowSwipe extends React.Component {
       this.swipe.kill();
       this.swipe = null;
     }
-    const model = this.props.model;
-    const domId = model.getDomId();
-    const dom = document.getElementById(domId);
+    const { attr, id } = this.props;
+    const dom = document.getElementById(id);
     const swipeOptions = {
       startSlide: 0,
-      auto: model.attr.play ? model.attr.playTime : false,
+      auto: attr.play ? attr.playTime : false,
       speed: 800,
       draggable: true,
       continuous: true,

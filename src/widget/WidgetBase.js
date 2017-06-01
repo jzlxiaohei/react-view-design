@@ -35,6 +35,7 @@ class WidgetBase {
         options: [
           { value: 'relative', text: 'relative(占位拖拽)' },
           { value: 'absolute', text: 'absolute(不占位拖拽)' },
+          { value: 'fixed', text: 'fixed(相对于视窗移动)' },
         ],
       },
     };

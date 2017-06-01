@@ -51,12 +51,12 @@ function showView(config = {}) {
             const newPos = change.newValue.position;
             const oldPos = change.oldValue.position;
             if (newPos == oldPos) return;
-            if (newPos == 'absolute') {
+            if (newPos == 'absolute' || newPos == 'fixed') {
               const { left, top } = this.dragContainer.getBoundingClientRect();
               this.state.x = left;
               this.state.y = top;
             }
-            if (oldPos == 'absolute') {
+            if (oldPos == 'absolute' || oldPos == 'fixed') {
               this.state.x = 0;
               this.state.y = 0;
             }
@@ -137,7 +137,9 @@ function showView(config = {}) {
 
       isDraggable() {
         const positionStyle = this.props.model.style.position;
-        return (positionStyle === 'relative' || positionStyle === 'absolute');
+        return (
+          positionStyle === 'relative' || positionStyle === 'absolute' || positionStyle === 'fixed'
+        ) && !this.props.model.notAllowDrag;
       }
 
       render() {

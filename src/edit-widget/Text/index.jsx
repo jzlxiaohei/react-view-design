@@ -8,7 +8,7 @@ import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
 import './index.scss';
 
 @observer
-class EditPicture extends React.Component {
+class EditText extends React.Component {
 
   static propTypes = {
     model: PropTypes.instanceOf(ModelText).isRequired,
@@ -42,4 +42,4 @@ class EditPicture extends React.Component {
   }
 }
 
-export default EditPicture;
+export default EditText;

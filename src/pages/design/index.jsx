@@ -26,7 +26,14 @@ class DesignPage extends React.Component {
     super(props);
     this.mainContainer = this.createModelInstanceWithId('container', 'main-container');
     this.mainContainer.setSelected(true);
-    this.mainContainer.assignStyle({ height: '' });
+    this.mainContainer.assignStyle({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      height: '',
+    });
     extendObservable(this, {
       currentSelectedModel: this.mainContainer,
     });
@@ -41,6 +48,7 @@ class DesignPage extends React.Component {
     swipeModel.addSlide();
     swipeModel.addSlide().assignStyle({ background: 'yellow' });
     swipeModel.addSlide().assignStyle({ background: 'green' });
+    this.mainContainer.push(this.createModelInstanceWithId('modal'));
   }
 
   createModelInstanceWithId = (viewType, id) => {
@@ -81,6 +89,7 @@ class DesignPage extends React.Component {
       model,
       viewTypesConfig: registerTable.getShowTable(),
       createModelInstanceWithId: this.createModelInstanceWithId,
+      selectedModel: this.currentSelectedModel,
     };
     if (!EditComp) {
       return <DefaultEditWidget {...props} />;

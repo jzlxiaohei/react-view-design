@@ -1,10 +1,9 @@
 .select-model-drag-wrapper {
-  position: relative;
   .drag-handle {
     position: absolute;
     top: 0;
     left:0;
-    z-index: 1000;
+    z-index: 99999;
     color:red;
     font-size: 40px;
     font-weight: bold;
