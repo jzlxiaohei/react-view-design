@@ -79,7 +79,6 @@ class DesignPage extends React.Component {
     );
 
 
-    this.mainContainer.push(this.createModelInstanceWithId('text'));
     const swipeModel = this.mainContainer.push(this.createModelInstanceWithId('swipe'));
     swipeModel.assignStyle({
       width: 320,
