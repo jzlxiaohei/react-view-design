@@ -28,7 +28,7 @@ class WidgetBase {
   getCommonStyleConfig() {
     return {
       width: { value: 375 },
-      height: { value: 100 },
+      minHeight: { value: 100 },
       color: { type: 'color', title: '字体颜色' },
       position: {
         title: '位置模式',
@@ -96,6 +96,17 @@ class WidgetBase {
   }
 
   @action
+  insertBefore(newChild, model) {
+    if (!(newChild instanceof WidgetBase)) {
+      throw new Error('child must be subClass of WidgetBase');
+    }
+    newChild.parentContainer = this; // eslint-disable-line no-param-reassign
+    const index = _.findIndex(this.children, model);
+    this.children.splice(index, 0, newChild);
+    return newChild;
+  }
+
+  @action
   removeByIndex(index) {
     this.children.splice(index, 1);
   }
@@ -129,11 +140,13 @@ class WidgetBase {
   @action
   assignStyle(style) {
     this.style = _.assign({}, this.style, style);
+    return this;
   }
 
   @action
   assignAttr(attr) {
     this.attr = _.assign({}, this.attr, attr);
+    return this;
   }
 
   @action

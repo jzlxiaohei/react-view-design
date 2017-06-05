@@ -1,5 +1,5 @@
 import WidgetBase from '../WidgetBase';
-import { ModelContainer } from '../Container';
+// import { ModelContainer } from '../Container';
 
 // class Slide extends WidgetBase {
 //   initAttrConfig() {
@@ -18,36 +18,38 @@ class Modal extends WidgetBase {
     this.assignStyle({
       display: 'none',
       zIndex: 1000,
-      position: 'absolute',
-      background: 'RGBA(0,0,0,.5)',
+      margin: '0 auto',
     });
-    this.contentWrapper = new ModelContainer();
-    this.contentWrapper.viewType = 'container';
-    this.contentWrapper.setId(`${this.id}-modal-content`);
-    super.push(this.contentWrapper);
+    // this.contentWrapper = new ModelContainer();
+    // this.contentWrapper.viewType = 'container';
+    // this.contentWrapper.setId(`${this.id}-modal-content`);
+    // super.push(this.contentWrapper);
   }
 
-  push(child) {
-    this.contentWrapper.push(child);
-    return child;
-  }
+  // push(child) {
+  //   this.contentWrapper.push(child);
+  //   return child;
+  // }
 
-  setSelected = (value) => {
-    this.contentWrapper.setSelected(value);
-  };
+  // setSelected = (value) => {
+  //   this.contentWrapper.setSelected(value);
+  // };
 
 
-  removeByIndex(index) {
-    this.contentWrapper.removeBYIndex(index);
-  }
+  // removeByIndex(index) {
+  //   this.contentWrapper.removeBYIndex(index);
+  // }
 
-  remove(model) {
-    this.contentWrapper.remove(model);
-  }
+  // remove(model) {
+  //   this.contentWrapper.remove(model);
+  // }
+
+  ignoreStyles = ['display']
 
   initAttrConfig() {
     return {
       triggerId: { title: '触发组件的ID' },
+      containerBg: { title: '遮罩背景' },
     };
   }
 

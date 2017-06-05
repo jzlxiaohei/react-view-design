@@ -17,6 +17,7 @@ function previewStyle(style) {
   return px2rem(appendPx(style));
 }
 
+// TODO: isNode
 window.$idRefMap = {};
 
 function showView(config = {}) {
@@ -40,6 +41,10 @@ function showView(config = {}) {
       }
 
       static styleText = config.style;
+
+      // static contextTypes = {
+      //   currentSelectedModel: PropTypes.instanceOf(WidgetBase).isRequired,
+      // }
 
       componentDidMount() {
         if (this.props.htmlMode !== 'design') return;
@@ -96,16 +101,20 @@ function showView(config = {}) {
           defaultStyle.outline = '2px dashed #ccc';
         }
         const modelStyle = _.assign({}, model.style, defaultStyle);
-        const showViewProps = ['htmlMode', 'processStyle', 'processAttr'];
+        const finalStyle = _.omit(modelStyle, model.ignoreStyles);
+        const designViewProps = [
+          'htmlMode', 'processStyle',
+          'processAttr', 'currentSelectedModel',
+        ];
 
         return {
-          otherProps: _.omit(this.props, showViewProps.concat('model')),
+          otherProps: _.omit(this.props, designViewProps.concat('model')),
           id: model.attr.id || model.id, // attr id first
-          style: processStyle(modelStyle, model),
+          style: processStyle(finalStyle, model),
           attr: processAttr(model.attr),
           dataAttr: getDataCustomAttr(model.attr),
           modelChildren: model.children.toJS(),
-          showViewProps: _.pick(this.props, showViewProps),
+          designViewProps: _.pick(this.props, designViewProps),
           model: this.props.model,
           // model,
           // processStyle,
@@ -189,7 +198,7 @@ const showViewPropTypes = {
   attr: PropTypes.object.isRequired,
   dataAttr: PropTypes.object.isRequired,
   modelChildren: PropTypes.array.isRequired,
-  showViewProps: PropTypes.object.isRequired,
+  designViewProps: PropTypes.object.isRequired,
   otherProps: PropTypes.object,
   model: PropTypes.object.isRequired,
 };

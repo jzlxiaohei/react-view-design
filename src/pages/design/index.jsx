@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { action, extendObservable } from 'mobx';
-import { Tree, Tag } from 'antd';
+import { Tree, Tag, message } from 'antd';
 import _ from 'lodash';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
 import { ModelContainer } from 'widget/WidgetMainContainer';
+// import WidgetBase from 'widget/WidgetBase';
 import registerTable from 'globals/registerTable';
 import 'widget/registerWidget';
 import DefaultEditWidget from 'editWidget/DefaultEditWidget';
@@ -22,18 +23,21 @@ class DesignPage extends React.Component {
     mainContainer: PropTypes.instanceOf(ModelContainer),
   }
 
+  // static childContextTypes = {
+  //   currentSelectedModel: PropTypes.instanceOf(WidgetBase),
+  // }
+
+  // getChildContext() {
+  //   return {
+  //     currentSelectedModel: this.currentSelectedModel,
+  //   };
+  // }
+
   constructor(props) {
     super(props);
     this.mainContainer = this.createModelInstanceWithId('container', 'main-container');
     this.mainContainer.setSelected(true);
-    this.mainContainer.assignStyle({
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      height: '',
-    });
+    this.mainContainer.notAllowDrag = true;
     extendObservable(this, {
       currentSelectedModel: this.mainContainer,
     });
@@ -42,12 +46,68 @@ class DesignPage extends React.Component {
   }
 
   initMockModel() {
-    this.mainContainer.push(this.createModelInstanceWithId('picture'));
+    this.mainContainer.assignStyle({
+      background: '#FDD100',
+    });
+    const pic1 = this.mainContainer.push(this.createModelInstanceWithId('picture'));
+    pic1.assignAttr({
+      url: '//cdn.llsapp.com/hybrid/tydus-banner/assets/cc_with_comment_top.gif',
+    });
+    const pic2 = this.mainContainer.push(this.createModelInstanceWithId('picture'));
+    pic2.assignAttr({
+      url: '//cdn.llscdn.com/fe-static/lingome/499-part-1-OEH9HoHx.jpg',
+    });
+
+    this.mainContainer.push(
+      this.createModelInstanceWithId('picture')
+        .assignAttr({
+          url: '//cdn.llscdn.com/fe-static/lingome/499-part-2-xDHxZodh.jpg',
+        })
+        .assignStyle({
+          marginTop: '30',
+        }),
+    );
+
+    this.mainContainer.push(
+      this.createModelInstanceWithId('picture')
+        .assignAttr({
+          url: '//cdn.llscdn.com/fe-static/lingome/499-part-3-cL3xo5ia.jpg',
+        })
+        .assignStyle({
+          marginTop: '30',
+        }),
+    );
+
+
     this.mainContainer.push(this.createModelInstanceWithId('text'));
     const swipeModel = this.mainContainer.push(this.createModelInstanceWithId('swipe'));
-    swipeModel.addSlide();
-    swipeModel.addSlide().assignStyle({ background: 'yellow' });
-    swipeModel.addSlide().assignStyle({ background: 'green' });
+    swipeModel.assignStyle({
+      width: 320,
+      margin: '0 auto',
+      padding: '0 10',
+    });
+    swipeModel.addSlide().push(
+      this.createModelInstanceWithId('picture').assignAttr({
+        url: '//cdn.llscdn.com/fe-static/lingome/Mark退款学员-BAZIvKM6.png?imageView2/0/w/828',
+      }).assignStyle({
+        width: 300,
+      }),
+    );
+    swipeModel.addSlide().push(
+      this.createModelInstanceWithId('picture').assignAttr({
+        url: '//cdn.llscdn.com/fe-static/lingome/Cherry 退款学员-81ybwPX5.png?imageView2/0/w/828',
+      }).assignStyle({
+        width: 300,
+      }),
+    );
+    swipeModel.addSlide().push(
+      this.createModelInstanceWithId('picture').assignAttr({
+        url: '//cdn.llscdn.com/fe-static/lingome/未生 退款学员-yQF2gjwP.png?imageView2/0/w/828',
+      }).assignStyle({
+        width: 300,
+      }),
+    );
+
     this.mainContainer.push(this.createModelInstanceWithId('modal'));
   }
 
@@ -71,7 +131,7 @@ class DesignPage extends React.Component {
   renderShowArea(model) {
     /* eslint-disable no-param-reassign*/
     const ShowComp = registerTable.getShowComp(model.viewType);
-    return <ShowComp model={model} htmlMode="design" />;
+    return <ShowComp model={model} htmlMode="design" currentSelectedModel={this.currentSelectedModel} />;
   }
 
   handleViewTypeClick = (viewType) => {
@@ -110,7 +170,7 @@ class DesignPage extends React.Component {
 
   buildTreeDom(model) {
     return (
-      <TreeNode title={model.id} key={model.id} isLeaf={!model.isContainer}>
+      <TreeNode mobxModel={model} title={model.id} key={model.id} isLeaf={!model.isContainer}>
         {model.children.map(m => this.buildTreeDom(m))}
       </TreeNode>
     );
@@ -143,6 +203,33 @@ class DesignPage extends React.Component {
     }
   })
 
+
+  handleModelTreeDrop = action((info) => {
+    // console.log(info);
+    const dropModel = info.node.props.mobxModel;
+    const dragModel = info.dragNode.props.mobxModel;
+    if (dragModel == this.mainContainer) {
+      return;
+    }
+    // push 是有可能发生error，比如swipe的push
+    // remove from container 不会。
+    try {
+      if (dropModel.isContainer) {
+        const oldParent = dragModel.parentContainer;
+        dropModel.push(dragModel);
+        oldParent.remove(dragModel);
+        return;
+      }
+      const oldParent = dragModel.parentContainer;
+      const parentContainer = dropModel.parentContainer;
+      parentContainer.insertBefore(dragModel, dropModel);
+      oldParent.remove(dragModel);
+    } catch (e) {
+      message.error(`拖拽失败：${e.message}`);
+      console.error(e);
+    }
+  })
+
   renderModelTree(model) {
     return (
       <Tree
@@ -150,6 +237,8 @@ class DesignPage extends React.Component {
         expandedKeys={[this.currentSelectedModel.id]}
         showLine
         onSelect={this.handleSelectTreeNode}
+        draggable
+        onDrop={this.handleModelTreeDrop}
       >
         {this.buildTreeDom(model)}
       </Tree>

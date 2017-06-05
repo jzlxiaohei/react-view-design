@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import { runInAction } from 'mobx';
 import { Button, Card, Tag } from 'antd';
 import { ModelSwipe } from 'widget/Swipe';
+import SortableList from 'comps/sortableList';
 import { FormCheckbox } from 'comps/form';
 import DefaultModelEdit from 'comps/defaultModelEdit';
 import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
@@ -34,17 +36,34 @@ class EditSwipe extends React.Component {
     this.initSwipe();
   }
 
-  renderChildren(children) {
-    return children.map(child => {
-      return (
-        <div key={child.id}>
-          <Tag className="child-id">{child.id}</Tag>
-          <ConfirmDelete onConfirm={() => this.handelDeleteModel(child)} />
-        </div>
-      );
+  handleSortEnd = (e) => {
+    const { oldIndex, newIndex } = e;
+    if (oldIndex === newIndex) {
+      return;
+    }
+    const list = this.props.model.children;
+    runInAction('move item for list', () => {
+      const moveItem = list.splice(oldIndex, 1)[0];
+      list.splice(newIndex, 0, moveItem);
     });
   }
 
+  renderChildren(children) {
+    return (
+      <SortableList
+        list={children}
+        renderItem={(child => {
+          return (
+            <div key={child.id} className="mtb-10">
+              <Tag className="child-id">{child.id}</Tag>
+              <ConfirmDelete onConfirm={() => this.handelDeleteModel(child)} />
+            </div>
+          );
+        })}
+        onEnd={this.handleSortEnd}
+      />
+    );
+  }
   handelRemove = (model) => {
     if (this.props.onRemove) {
       this.props.onRemove(model);

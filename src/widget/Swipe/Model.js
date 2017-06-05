@@ -23,8 +23,9 @@ class Swipe extends WidgetBase {
     slide.setId(`${this.id}-slide-${this.idSeq++}`);
     slide.viewType = 'container';
     slide.assignStyle({
-      background: 'red',
+      // background: 'red',
       position: '',
+      width: '100%',
     });
     return slide;
   }

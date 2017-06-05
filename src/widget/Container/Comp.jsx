@@ -14,7 +14,7 @@ class WidgetContainer extends React.Component {
   renderChild(childModel, index) {
     const viewType = childModel.viewType;
     const ShowComp = registerTable.getShowComp(viewType);
-    return <ShowComp key={index} model={childModel} {...this.props.showViewProps} />;
+    return <ShowComp key={index} model={childModel} {...this.props.designViewProps} />;
   }
 
   render() {

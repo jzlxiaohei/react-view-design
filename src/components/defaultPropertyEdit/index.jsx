@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import WidgetBase from 'widget/WidgetBase';
 import EditProperty from './EditProperty';
 
@@ -38,7 +39,7 @@ class DefaultPropertyEdit extends React.Component {
           propertyConfig={model.styleConfig}
           allowedAdd
           onAddItem={this.handleAddStyleItem}
-          ignoreFileds={ignoreFileds.style}
+          ignoreFileds={_.concat(model.ignoreStyles, ignoreFileds.style)}
         />
       </div>
     );
