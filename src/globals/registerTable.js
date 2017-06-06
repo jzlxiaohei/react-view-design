@@ -15,7 +15,7 @@ class RegisterTable {
     this.editTable = {};
   }
 
-  register(viewType, Model, ShowComp, { override = false, title = '' } = {}) {
+  register(viewType, Model, ShowComp, { override = false, title = '', notAllowAdded } = {}) {
     const table = this.modelShowPairTable;
     if (viewType in table && !override) {
       throw new Error(`${viewType} has been existed! use '{ override: true }' if you want override`);
@@ -24,6 +24,7 @@ class RegisterTable {
       Model,
       ShowComp,
       title: title || viewType,
+      notAllowAdded,
     };
   }
 

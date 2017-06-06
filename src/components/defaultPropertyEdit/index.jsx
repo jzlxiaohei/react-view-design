@@ -26,7 +26,7 @@ class DefaultPropertyEdit extends React.Component {
   }
 
   render() {
-    const { model, ignoreFileds = [] } = this.props;
+    const { model, ignoreFileds = {} } = this.props;
     return (
       <div className="default-edit-style-attr">
         <EditProperty
@@ -39,7 +39,7 @@ class DefaultPropertyEdit extends React.Component {
           propertyConfig={model.styleConfig}
           allowedAdd
           onAddItem={this.handleAddStyleItem}
-          ignoreFileds={_.concat(model.ignoreStyles, ignoreFileds.style)}
+          ignoreFileds={ignoreFileds.style}
         />
       </div>
     );

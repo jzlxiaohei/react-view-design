@@ -29,12 +29,14 @@ class DefaultModelEdit extends React.Component {
       <div className="view-type-widget-selector">
         {
           _.keys(viewTypesConfig).map((viewType, index) => {
+            const vtConfig = viewTypesConfig[viewType];
+            if (vtConfig.notAllowAdded) return null;
             return (
               <div
                 key={index} className="view-type-item"
                 onClick={() => this.handleViewTypeClick(viewType)}
               >
-                {viewTypesConfig[viewType].title}
+                {vtConfig.title}
               </div>
             );
           })

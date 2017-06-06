@@ -101,7 +101,6 @@ function showView(config = {}) {
           defaultStyle.outline = '2px dashed #ccc';
         }
         const modelStyle = _.assign({}, model.style, defaultStyle);
-        const finalStyle = _.omit(modelStyle, model.ignoreStyles);
         const designViewProps = [
           'htmlMode', 'processStyle',
           'processAttr', 'currentSelectedModel',
@@ -110,7 +109,7 @@ function showView(config = {}) {
         return {
           otherProps: _.omit(this.props, designViewProps.concat('model')),
           id: model.attr.id || model.id, // attr id first
-          style: processStyle(finalStyle, model),
+          style: processStyle(modelStyle, model),
           attr: processAttr(model.attr),
           dataAttr: getDataCustomAttr(model.attr),
           modelChildren: model.children.toJS(),

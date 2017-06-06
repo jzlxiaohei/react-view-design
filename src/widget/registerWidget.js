@@ -14,7 +14,7 @@ function register() {
   registerTable.register('picture', ModelPicture, CompPicture, { title: '图片' });
   registerTable.register('text', ModelText, CompText, { title: '文本' });
   registerTable.register('swipe', ModelSwipe, CompSwipe, { title: '轮播组件' });
-  registerTable.register('modal', ModelModal, CompModal, { title: '弹窗' });
+  registerTable.register('modal', ModelModal, CompModal, { title: '弹窗', notAllowAdded: true });
 }
 
 register();

@@ -110,6 +110,7 @@ class EditProperty extends React.Component {
           _.keys(_.omit(properties, ignoreFileds)).map((key) => {
             const configValue = toJS(propertyConfig[key]);
             if (configValue) {
+              if (configValue.ignoreEdit) return null;
               configValue.title = configValue.title || key;
             }
             return (

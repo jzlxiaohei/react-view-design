@@ -9,9 +9,8 @@ import WidgetBase from '../WidgetBase';
 
 class Modal extends WidgetBase {
 
-  idSeq = 1;
 
-  notAllowDrag = true;
+  // notAllowDrag = true;
 
   constructor() {
     super();
@@ -44,7 +43,6 @@ class Modal extends WidgetBase {
   //   this.contentWrapper.remove(model);
   // }
 
-  ignoreStyles = ['display']
 
   initAttrConfig() {
     return {
@@ -56,6 +54,7 @@ class Modal extends WidgetBase {
   initStyleConfig() {
     return {
       height: { value: '' },
+      display: { ignoreEdit: true },
     };
   }
 }

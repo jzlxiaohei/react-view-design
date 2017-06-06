@@ -8,7 +8,7 @@ function register() {
     registerTable.clearEditTable();
   }
   // registerTable.registerEdit('container', EditContainer);
-  // registerTable.registerEdit('picture', EditPicture);
+  registerTable.registerEdit('picture', EditPicture);
   registerTable.registerEdit('text', EditText);
   registerTable.registerEdit('swipe', EditSwipe);
   // registerTable.registerEdit('modal', EditModal);

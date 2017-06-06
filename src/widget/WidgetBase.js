@@ -102,6 +102,9 @@ class WidgetBase {
     }
     newChild.parentContainer = this; // eslint-disable-line no-param-reassign
     const index = _.findIndex(this.children, model);
+    if (newChild.parentContainer == model.parentContainer) {
+      this.remove(newChild);
+    }
     this.children.splice(index, 0, newChild);
     return newChild;
   }

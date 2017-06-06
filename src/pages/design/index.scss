@@ -8,10 +8,21 @@ $phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
     width: $phoneWidth;
     height: 667px;
     outline: 1px solid #999;
+    // overflow-y: scroll;
     transform: translateZ(0);
-    overflow-x: hidden;
-    overflow-y: scroll;
-    position: relative;
+    overflow: hidden;
+    .scroll-container{
+      position: relative;
+      height: 667px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    .fixed {
+      position: fixed;
+      top:0; left:0;right: 0; bottom: 0;
+      z-index: 1000;
+      background: rgba(0,0,0, .5)
+    }
   }
   .model-edit-area {
     .ant-form-item-label{

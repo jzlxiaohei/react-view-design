@@ -29,6 +29,10 @@ const unitless = {
   'stroke-width':      true,
 };
 
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function dashify(str) {
   return str.replace(/([A-Z])/g, '-$1')
             .replace(/^ms-/, '-ms-')
@@ -40,7 +44,7 @@ function appendPx(style) {
   _.forOwn(style, (originValue, key) => {
     const dashedName = dashify(key);
     let value = originValue;
-    if (typeof value === 'number') {
+    if (typeof value === 'number' || isNumeric(value)) {
       if (value === 0 || unitless[dashedName]) {
         value = value.toString();
       } else {

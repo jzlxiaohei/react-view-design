@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import registerTable from 'globals/registerTable';
 import showView, { showViewPropTypes } from 'hoc/showView';
 import style from './style.scss';
@@ -95,7 +96,7 @@ class ShowModal extends React.Component {
       <div id={props.id} className={className} style={containerStyle} >
         <div
           {...props.otherProps}
-          style={props.style}
+          style={_.omit(props.style, ['display'])}
           {...props.dataAttr}
         >
           {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
