@@ -4,10 +4,7 @@ import { observer } from 'mobx-react';
 import { action, extendObservable } from 'mobx';
 import { Tree, Tag, message, Button } from 'antd';
 import _ from 'lodash';
-import ConfirmDelete from 'comps/common/ConfirmDelete';
 import { ModelContainer } from 'widget/WidgetMainContainer';
-// import { ModelModal, CompModal } from 'widget/Modal';
-// import WidgetBase from 'widget/WidgetBase';
 import registerTable from 'globals/registerTable';
 import 'widget/registerWidget';
 import DefaultEditWidget from 'editWidget/DefaultEditWidget';
@@ -130,7 +127,6 @@ class DesignPage extends React.Component {
 
   handleViewTypeClick = (viewType) => {
     const instance = this.createModelInstanceWithId(viewType);
-    // const ShowComp = registerTable.getShowComp(model.viewType);
     this.mainContainer.push(instance);
   }
 
@@ -150,15 +146,6 @@ class DesignPage extends React.Component {
     }
     return (
       <EditComp {...props} />
-    );
-  }
-
-  renderTreeNodeTitle(model) {
-    return (
-      <span>
-        {model.id}
-        <ConfirmDelete onConfirm={() => this.handelDeleteModel(model)} />
-      </span>
     );
   }
 
@@ -191,7 +178,6 @@ class DesignPage extends React.Component {
   }
 
   handleSelectTreeNode = action((selectedKeys, rootModel) => {
-    // console.log(selectedKeys);
     const selectedId = selectedKeys[0];
     if (!selectedId) return;
     const selectedModel = this.findModelById(selectedId, rootModel);
