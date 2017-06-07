@@ -18,7 +18,7 @@ class EditPicture extends React.Component {
     return (
       <div className="edit-picture">
         <DefaultModelEdit model={model} onRemove={this.props.onRemove} />
-        {/* <Button type="primary" onClick={this.handleAutoSizeImg}>调整图片到原始比例</Button>*/}
+        <button type="primary" onClick={this.handleAutoSizeImg}>调整图片到原始比例</button>
         <DefaultPropertyEdit model={model} />
       </div>
     );

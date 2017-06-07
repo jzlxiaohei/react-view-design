@@ -25,6 +25,14 @@ class DefaultPropertyEdit extends React.Component {
     });
   }
 
+  removeStyle = (key) => {
+    this.props.model.removeStyle(key);
+  }
+
+  removeAttr = (key) => {
+    this.props.model.removeAttr(key)
+  }
+
   render() {
     const { model, ignoreFileds = {} } = this.props;
     return (
@@ -33,6 +41,7 @@ class DefaultPropertyEdit extends React.Component {
           properties={model.attr}
           propertyConfig={model.attrConfig}
           ignoreFileds={ignoreFileds.attr}
+          removeProperty={this.removeAttr}
         />
         <EditProperty
           properties={model.style}
@@ -40,6 +49,7 @@ class DefaultPropertyEdit extends React.Component {
           allowedAdd
           onAddItem={this.handleAddStyleItem}
           ignoreFileds={ignoreFileds.style}
+          removeProperty={this.removeStyle}
         />
       </div>
     );

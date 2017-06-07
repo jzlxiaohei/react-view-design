@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { runInAction } from 'mobx';
-import { Button, Card, Tag } from 'antd';
+import { Button, Tag } from 'antd';
 import { ModelSwipe } from 'widget/Swipe';
 import SortableList from 'comps/sortableList';
 import { FormCheckbox } from 'comps/form';
 import DefaultModelEdit from 'comps/defaultModelEdit';
 import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
+import DefaultChildrenList from 'comps/defaultChildrenList';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
 
 @observer
@@ -56,7 +57,7 @@ class EditSwipe extends React.Component {
           return (
             <div key={child.id} className="mtb-10">
               <Tag className="child-id">{child.id}</Tag>
-              <ConfirmDelete onConfirm={() => this.handelDeleteModel(child)} />
+              <ConfirmDelete onConfirm={() => this.handelRemove(child)} />
             </div>
           );
         })}
@@ -64,6 +65,7 @@ class EditSwipe extends React.Component {
       />
     );
   }
+
   handelRemove = (model) => {
     if (this.props.onRemove) {
       this.props.onRemove(model);
@@ -78,7 +80,7 @@ class EditSwipe extends React.Component {
   }
 
   render() {
-    const { model } = this.props;
+    const { model, onRemove } = this.props;
     return (
       <div className="edit-swipe">
         <DefaultModelEdit model={model} onRemove={this.handelRemove} />
@@ -93,9 +95,7 @@ class EditSwipe extends React.Component {
             attr: ['play'],
           }}
         />
-        <Card title="slides" className="edit-child-list ml-20">
-          {this.renderChildren(model.children)}
-        </Card>
+        <DefaultChildrenList model={model} onRemove={onRemove} />
       </div>
     );
   }

@@ -2,8 +2,27 @@
   width: 400px;
 }
 .default-property-edit {
+  .default-form-item{
+    display: flex;
+    .ant-form-item{
+      flex: 1;
+    }
+  }
   .anticon-plus-circle-o {
     font-size: 20px;
     margin: 20px;
+  }
+  .input-with-detail-edit{
+    position: relative;
+    .anticon{
+      position: absolute;
+      top: 6px;
+      right: -50px;
+    }
+  }
+  .anticon-minus {
+    margin: 6px 0 0 6px;;
+    font-size: 20px;
+    color: #f50;
   }
 }

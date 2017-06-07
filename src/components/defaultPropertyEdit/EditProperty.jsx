@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { observer, PropTypes as mobxPropTypes } from 'mobx-react';
 import { observable, toJS, action } from 'mobx';
-import { FormSelect, FormInput, FormCheckbox } from 'comps/form';
 import { Select, Icon, Popover, Button } from 'antd';
+import { FormSelect, FormInput, FormCheckbox } from 'comps/form';
+import ConfirmDelete from 'comps/common/ConfirmDelete';
 import './index.scss';
 
 const Option = Select.Option;
@@ -30,6 +31,7 @@ class EditProperty extends React.Component {
     propertyConfig: mobxPropTypes.observableObject,
     allowedAdd: PropTypes.bool,
     ignoreFileds: PropTypes.arrayOf(PropTypes.string),
+    removeProperty: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -102,6 +104,10 @@ class EditProperty extends React.Component {
     );
   }
 
+  removePropertyItem = (key) => {
+    this.props.removeProperty(key);
+  }
+
   render() {
     const { propertyConfig, properties, allowedAdd, ignoreFileds } = this.props;
     return (
@@ -116,6 +122,9 @@ class EditProperty extends React.Component {
             return (
               <div className="default-form-item" key={key}>
                 {this.renderInput(key, configValue)}
+                <ConfirmDelete onConfirm={() => this.removePropertyItem(key)}>
+                  <Icon type="minus" />
+                </ConfirmDelete>
               </div>)
             ;
           })

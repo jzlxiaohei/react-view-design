@@ -30,6 +30,7 @@
     "arrow-parens": 0,
     "no-plusplus":0,
     "no-return-assign": 0,
+    "react/no-multi-comp": 0,
     "import/extensions": [1, {
       "js": "never",
       "jsx": "never"

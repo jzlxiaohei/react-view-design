@@ -99,6 +99,9 @@ class DesignPage extends React.Component {
       }),
     );
 
+    this.mainContainer.push(
+      this.createModelInstanceWithId('form'),
+    );
     // this.mainContainer.push(this.createModelInstanceWithId('modal'));
   }
 

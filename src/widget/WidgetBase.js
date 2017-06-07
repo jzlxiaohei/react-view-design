@@ -140,17 +140,30 @@ class WidgetBase {
     };
   }
 
-  @action
-  assignStyle(style) {
+  removeStyle = action((key) => {
+    if (!key) {
+      throw new Error('removeStyle: single key must be provided');
+    }
+    this.style = _.omit(this.style, key);
+  })
+
+
+  removeAttr = action((key) => {
+    if (!key) {
+      throw new Error('removeAttr: single key must be provided');
+    }
+    this.attr = _.omit(this.attr, key);
+  })
+
+  assignStyle = action((style) => {
     this.style = _.assign({}, this.style, style);
     return this;
-  }
+  })
 
-  @action
-  assignAttr(attr) {
+  assignAttr = action((attr) => {
     this.attr = _.assign({}, this.attr, attr);
     return this;
-  }
+  })
 
   @action
   setStyle(style) {

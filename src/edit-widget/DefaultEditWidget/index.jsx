@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { runInAction } from 'mobx';
-import { Card, Tag } from 'antd';
+import { Tag } from 'antd';
 // import registerTable from 'globals/registerTable';
 import WidgetBase from 'widget/WidgetBase';
 import DefaultModelEdit from 'comps/defaultModelEdit';
 import DefaultPropertyEdit from 'comps/defaultPropertyEdit';
 import DefaultAddChildEdit from 'comps/defaultAddChildEdit';
+import DefaultChildrenList from 'comps/defaultChildrenList';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
 import SortableList from 'comps/sortableList';
 
@@ -77,9 +78,7 @@ class Container extends React.Component {
         <DefaultPropertyEdit model={model} />
         {
           model.isContainer ?
-            <Card title="子组件" className="edit-child-list ml-20">
-              {this.renderChildren(model.children)}
-            </Card>
+            <DefaultChildrenList model={model} onRemove={onRemove} />
             : null
         }
       </div>

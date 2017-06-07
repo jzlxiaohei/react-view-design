@@ -6,13 +6,14 @@ class DeleteOperation extends React.Component {
   static propTypes = {
     onConfirm: PropTypes.func.isRequired,
     children: PropTypes.any,
+    title: PropTypes.node,
   };
 
   render() {
     return (
       <Popconfirm
         placement="top"
-        title="Are you sure?" okText="Yes" cancelText="No"
+        title={this.props.title || 'sure to delete?'} okText="Yes" cancelText="No"
         {...this.props}
         onConfirm={this.props.onConfirm}
       >
