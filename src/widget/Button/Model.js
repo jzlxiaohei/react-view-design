@@ -1,7 +1,8 @@
 import WidgetBase from '../WidgetBase';
 
+class ButtonModal extends WidgetBase {
 
-class Text extends WidgetBase {
+  viewType='button'
 
   constructor() {
     super();
@@ -17,12 +18,15 @@ class Text extends WidgetBase {
   // TODO: color, use react-color
   initStyleConfig() {
     return {
-      width: { value: 375 },
-      height: { value: 375 },
+      height: { value: 44 },
+      lineHeight: { value: 44 },
+      minHeight: { value: '' },
       backgroundColor: { value: '#F50', type: 'color' },
       color: { value: '#fff', type: 'color' },
+      margin: { value: '0 auto' },
       textAlign: {
         title: '文字对齐',
+        value: 'center',
         options: [
           { value: 'center', text: '居中对齐' },
           { value: 'left', text: '' },
@@ -35,4 +39,4 @@ class Text extends WidgetBase {
 
 }
 
-export default Text;
+export default ButtonModal;

@@ -1,5 +1,6 @@
 import { extendObservable, action, toJS } from 'mobx';
 import _ from 'lodash';
+import registerTable from 'globals/registerTable';
 
 
 function getMethodImplementString(method) {
@@ -7,6 +8,7 @@ function getMethodImplementString(method) {
 }
 
 class WidgetBase {
+
   constructor() {
     extendObservable(this, {
       id: '', // auto injected
@@ -27,7 +29,7 @@ class WidgetBase {
    */
   getCommonStyleConfig() {
     return {
-      width: { value: 375 },
+      width: { value: '100%' },
       minHeight: { value: 100 },
       color: { type: 'color', title: '字体颜色' },
       position: {
@@ -66,7 +68,11 @@ class WidgetBase {
     const attr = {};
     attr.id = attr.id || this.id;
     _.assign(attr, this.getDefaultValueByConfig(this.attrConfig));
+    if (this.isContainer && !style.position) {
+      style.position = 'relative';
+    }
     this.assignStyle(style);
+
     this.assignAttr(attr);
   }
 
@@ -126,19 +132,6 @@ class WidgetBase {
     throw new Error(getMethodImplementString('getDefaultAttr'));
   }
 
-  getValue() {
-    const viewType = this.viewType;
-    if (!viewType) {
-      throw new Error('model must have viewType');
-    }
-    return {
-      viewType,
-      attr: toJS(this.attr),
-      style: toJS(this.style),
-      id: this.id,
-      selected: this.selected,
-    };
-  }
 
   removeStyle = action((key) => {
     if (!key) {
@@ -182,7 +175,29 @@ class WidgetBase {
 
   @action
   initByJSON(data = {}) {
-    _.assign(this, data);
+    _.assign(this, _.omit(data, 'children'));
+    const children = data.children;
+    // TODO: create model..
+    this.children = children.map(childJSON => {
+      const viewType = childJSON.viewType;
+      const childModel = registerTable.createModelInstance(viewType);
+      childModel.initByJSON(childJSON);
+      childModel.parentContainer = this;
+      return childModel;
+    });
+  }
+
+  @action
+  clone() {
+    const originModel = this;
+    const viewType = originModel.viewType;
+    const cloneModel = new originModel.constructor(); // registerTable.createModelInstance(viewType);
+    cloneModel.attr = toJS(originModel.attr);
+    cloneModel.style = toJS(originModel.style);
+    cloneModel.id = registerTable.generateId(viewType);
+    cloneModel.viewType = viewType;
+    cloneModel.children = originModel.children.map(c => c.clone());
+    return cloneModel;
   }
 
   getJSON() {
@@ -195,7 +210,8 @@ class WidgetBase {
       attr: toJS(this.attr),
       style: toJS(this.style),
       id: this.id,
-      selected: this.selected,
+      children: this.children.map(ch => ch.getJSON()),
+      // selected: this.selected,
     };
   }
 

@@ -2,112 +2,51 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { action, extendObservable } from 'mobx';
-import { Tree, Tag, message, Button } from 'antd';
+import { Tree, Tag, message, Button, Tabs } from 'antd';
 import _ from 'lodash';
-import { ModelContainer } from 'widget/WidgetMainContainer';
 import registerTable from 'globals/registerTable';
 import 'widget/registerWidget';
 import DefaultEditWidget from 'editWidget/DefaultEditWidget';
 import 'editWidget/registerWidgetEditor';
-import './index.scss';
+import DesignModel from './DesignModel';
+import BackEndForm from './_BackEndForm';
+import './design-comp.scss';
 
 
 const TreeNode = Tree.TreeNode;
+const TabPane = Tabs.TabPane;
 
 @observer
 class DesignPage extends React.Component {
 
 
   static propTypes = {
-    mainContainer: PropTypes.instanceOf(ModelContainer),
+    // mainContainer: PropTypes.instanceOf(ModelContainer).isRequired,
+    // modalListContainer: PropTypes.instanceOf(ModelContainer).isRequired,
+    initMockModel: PropTypes.func,
   }
 
   constructor(props) {
     super(props);
-    this.mainContainer = this.createModelInstanceWithId('container', 'main-container');
+    this.designModel = new DesignModel();
+    this.mainContainer = this.designModel.mainContainer;
     this.mainContainer.setSelected(true);
     this.mainContainer.notAllowDrag = true;
-    this.modalListContainer = this.createModelInstanceWithId('container', 'modal-list-container');
+    this.modalListContainer = this.designModel.modalListContainer;
     extendObservable(this, {
       currentSelectedModel: this.mainContainer,
     });
     this.selectedKeysPool = {};
-    this.idSeq = 1;
-    this.modalIdSeq = 1;
-    this.initMockModel();
+    // window.mainContainer = this.mainContainer;
+    // window.modalListContainer = this.modalListContainer;
+    if (this.props.initMockModel) {
+      this.props.initMockModel(this.mainContainer, this.modalListContainer, this.createModelInstanceWithId);
+    }
   }
 
-  initMockModel() {
-    this.mainContainer.assignStyle({
-      background: '#FDD100',
-    });
-    const pic1 = this.mainContainer.push(this.createModelInstanceWithId('picture'));
-    pic1.assignAttr({
-      url: '//cdn.llsapp.com/hybrid/tydus-banner/assets/cc_with_comment_top.gif',
-    });
-    const pic2 = this.mainContainer.push(this.createModelInstanceWithId('picture'));
-    pic2.assignAttr({
-      url: '//cdn.llscdn.com/fe-static/lingome/499-part-1-OEH9HoHx.jpg',
-    });
-
-    this.mainContainer.push(
-      this.createModelInstanceWithId('picture')
-        .assignAttr({
-          url: '//cdn.llscdn.com/fe-static/lingome/499-part-2-xDHxZodh.jpg',
-        })
-        .assignStyle({
-          marginTop: '30',
-        }),
-    );
-
-    this.mainContainer.push(
-      this.createModelInstanceWithId('picture')
-        .assignAttr({
-          url: '//cdn.llscdn.com/fe-static/lingome/499-part-3-cL3xo5ia.jpg',
-        })
-        .assignStyle({
-          marginTop: '30',
-        }),
-    );
-
-
-    const swipeModel = this.mainContainer.push(this.createModelInstanceWithId('swipe'));
-    swipeModel.assignStyle({
-      width: 320,
-      margin: '0 auto',
-      padding: '0 10',
-    });
-    swipeModel.addSlide().push(
-      this.createModelInstanceWithId('picture').assignAttr({
-        url: '//cdn.llscdn.com/fe-static/lingome/Mark退款学员-BAZIvKM6.png?imageView2/0/w/828',
-      }).assignStyle({
-        width: 300,
-      }),
-    );
-    swipeModel.addSlide().push(
-      this.createModelInstanceWithId('picture').assignAttr({
-        url: '//cdn.llscdn.com/fe-static/lingome/Cherry 退款学员-81ybwPX5.png?imageView2/0/w/828',
-      }).assignStyle({
-        width: 300,
-      }),
-    );
-    swipeModel.addSlide().push(
-      this.createModelInstanceWithId('picture').assignAttr({
-        url: '//cdn.llscdn.com/fe-static/lingome/未生 退款学员-yQF2gjwP.png?imageView2/0/w/828',
-      }).assignStyle({
-        width: 300,
-      }),
-    );
-
-    this.mainContainer.push(
-      this.createModelInstanceWithId('form'),
-    );
-    // this.mainContainer.push(this.createModelInstanceWithId('modal'));
-  }
 
   createModelInstanceWithId = (viewType, id) => {
-    const instance = registerTable.createModelInstance(viewType);
-    instance.id = id || `${viewType}-${this.idSeq++}`;
+    const instance = registerTable.createModelInstance(viewType, id);
     return instance;
   }
 
@@ -249,7 +188,6 @@ class DesignPage extends React.Component {
 
   addModalControl = action(() => {
     const instance = registerTable.createModelInstance('modal');
-    instance.id = `modal-${this.modalIdSeq++}`;
     this.modalListContainer.push(instance);
   })
 
@@ -271,11 +209,10 @@ class DesignPage extends React.Component {
     return null;
   }
 
-  render() {
+  renderDesignTab() {
     return (
-      <div className="design-page">
+      <div className="design-comp">
         <div className="flex-container">
-
           <div className="model-tree-area">
             <div className="m-10">
               <Button type="primary" onClick={this.addModalControl}>添加模态窗口</Button>
@@ -299,6 +236,25 @@ class DesignPage extends React.Component {
           </div>
         </div>
       </div>
+    );
+  }
+
+  renderSaveForm() {
+    return (
+      <BackEndForm designModel={this.designModel} />
+    );
+  }
+
+  render() {
+    return (
+      <Tabs>
+        <TabPane tab="设计" key="1">
+          {this.renderDesignTab()}
+        </TabPane>
+        <TabPane tab="保存" key="2">
+          {this.renderSaveForm()}
+        </TabPane>
+      </Tabs>
     );
   }
 }

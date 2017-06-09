@@ -1,8 +1,8 @@
 $phoneWidth: 390px; // 375(phone width) + 15(scroll bar)
 
-.design-page {
+.design-comp {
   .model-tree-area{
-    width: 300px;
+    min-width: 300px;
   }
   .phone-simulator-375 {
     width: $phoneWidth;

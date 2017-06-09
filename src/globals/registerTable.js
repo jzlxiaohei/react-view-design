@@ -7,6 +7,28 @@ class RegisterTable {
   modelShowPairTable = {}
   editTable = {}
 
+  idGenerator = {}
+
+  clearIdGenerator(viewType) {
+    if (viewType) {
+      delete this.idGenerator[viewType];
+    } else {
+      this.idGenerator = {};
+    }
+  }
+
+  initIdGenerator(idGenerator) {
+    this.idGenerator = idGenerator;
+  }
+
+  generateId(viewType) {
+    if (!(viewType in this.modelShowPairTable)) {
+      throw new Error(`viewType: ${viewType} not found!`);
+    }
+    this.idGenerator[viewType] = this.idGenerator[viewType] || 1;
+    return `${viewType}-${this.idGenerator[viewType]++}`;
+  }
+
   clearTable() {
     this.modelShowPairTable = {};
   }
@@ -66,10 +88,18 @@ class RegisterTable {
     return this.editTable[viewType];
   }
 
-  createModelInstance(viewType) {
+  createModelInstance(viewType, id) {
     const Model = this.getModel(viewType);
     const instance = new Model();
     instance.viewType = viewType;
+    if (id) {
+      instance.setId(id);
+    } else {
+      instance.setId(this.generateId(viewType));
+    }
+    if (instance.initMethod) {
+      instance.initMethod();
+    }
     return instance;
   }
 }

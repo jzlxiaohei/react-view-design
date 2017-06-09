@@ -18,7 +18,7 @@ class EditForm extends React.Component {
 
   addInput = () => {
     const { model } = this.props;
-    model.addInput();
+    model.formInputContainer.addInput();
   }
 
 
@@ -27,7 +27,7 @@ class EditForm extends React.Component {
     return (
       <div className="edit-form">
         <DefaultModelEdit model={model} onRemove={onRemove} />
-        <Button type="primary" onClick={this.addInput}>添加文本框</Button>
+        <Button type="primary" onClick={this.addInput}>添加表单项</Button>
         <DefaultPropertyEdit model={model} />
         <DefaultChildrenList model={model} onRemove={onRemove} />
       </div>

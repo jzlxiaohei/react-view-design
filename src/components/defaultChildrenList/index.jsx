@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { runInAction } from 'mobx';
-import { Card, Tag } from 'antd';
+import { runInAction, action } from 'mobx';
+import { Card, Tag, Button } from 'antd';
+import registerTable from 'globals/registerTable';
 import WidgetBase from 'widget/WidgetBase';
 import SortableList from 'comps/sortableList';
 import ConfirmDelete from 'comps/common/ConfirmDelete';
@@ -13,6 +14,7 @@ class EditSwipe extends React.Component {
   static propTypes = {
     model: PropTypes.instanceOf(WidgetBase).isRequired,
     onRemove: PropTypes.func,
+    title: PropTypes.string,
   }
 
   handleSortEnd = (e) => {
@@ -33,6 +35,12 @@ class EditSwipe extends React.Component {
     }
   }
 
+  handelCloneChild = action((child) => {
+    const { model } = this.props;
+    const clonedChild = child.clone();
+    model.push(clonedChild);
+  });
+
   renderChildren(children) {
     return (
       <SortableList
@@ -41,6 +49,7 @@ class EditSwipe extends React.Component {
           return (
             <div key={child.id} className="mtb-10">
               <Tag className="child-id">{child.id}</Tag>
+              <Button onClick={() => this.handelCloneChild(child)}>复制</Button>
               <ConfirmDelete onConfirm={() => this.handelDeleteModel(child)} />
             </div>
           );
@@ -54,7 +63,7 @@ class EditSwipe extends React.Component {
     const { model } = this.props;
     return (
       <div className="default-edit-children-list">
-        <Card title="slides" className="edit-child-list ml-20">
+        <Card title={this.props.title || '子组件'} className="edit-child-list ml-20">
           {this.renderChildren(model.children)}
         </Card>
       </div>

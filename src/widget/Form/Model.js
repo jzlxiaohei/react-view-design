@@ -1,12 +1,18 @@
+import { action } from 'mobx';
+import registerTable from 'globals/registerTable';
 import WidgetBase from '../WidgetBase';
 
-class Input extends WidgetBase {
+class FormInput extends WidgetBase {
+
+  constructor() {
+    super();
+    this.isContainer = false;
+  }
 
   initAttrConfig() {
     return {
+      placeholder: { value: '', title: '占位文字' },
       field: { value: '', title: '字段 *' },
-      apiUrl: { title: '请求地址' },
-      label: { title: '标签', value: '标签' },
       type: {
         title: '类型',
         value: '',
@@ -17,39 +23,188 @@ class Input extends WidgetBase {
       },
     };
   }
+
+  initStyleConfig() {
+    return {
+      WebkitAppearance: { value: 'none' },
+      minHeight: { value: '' },
+      border: { value: 'none' },
+    };
+  }
 }
 
-class FormWidget extends WidgetBase {
+class FormLabel extends WidgetBase {
 
-  idSeq = 1;
-
+  constructor() {
+    super();
+    this.isContainer = false;
+  }
 
   initAttrConfig() {
     return {
-      apiUrl: { title: '请求地址' },
+      text: { value: '标签文本' },
+    };
+  }
+  initStyleConfig() {
+    return {
+      // width: { value: '48' },
+      display: { value: 'inline-block' },
+      minHeight: { value: '' },
+    };
+  }
+}
+
+class FormInputItemWrapper extends WidgetBase {
+
+  // push() {
+  //   throw new Error('should not invoke push method of FormInput');
+  // }
+
+  // remove() {
+  //   throw new Error('should not invoke remove method of FormInput');
+  // }
+
+  // removeByIndex() {
+  //   throw new Error('should not invoke removeByIndex method of FormInput');
+  // }
+
+  _initChild(viewType, Ctor) {
+    const item = new Ctor();
+    const id = registerTable.generateId(viewType);
+    item.setId(id);
+    item.viewType = viewType;
+    super.push(item);
+    return item;
+  }
+
+  @action
+  initChildren() {
+    // this.children = [];
+    this.label = this._initChild('local-form-label', FormLabel);
+    this.input = this._initChild('local-form-input', FormLabel);
+  }
+
+  initAttrConfig() {
+    return {
     };
   }
 
+  initStyleConfig() {
+    return {
+      minHeight: { value: '' },
+    };
+  }
+
+  // initByJSON(data = {}) {
+  //   _.assign(this, _.omit(data, 'children'));
+  //   const children = data.children;
+
+  //   const label = new Label();
+  //   label.initByJSON(children[0]);
+  //   label.parentContainer = this;
+
+  //   const input = new Input();
+  //   input.initByJSON(children[1]);
+  //   input.parentContainer = this;
+  //   this.children = [label, input];
+  // }
+}
+
+class FormInputContainer extends WidgetBase {
+
   createInput() {
-    const input = new Input();
-    input.setId(`${this.id}-input-${this.idSeq++}`);
-    input.viewType = 'input';
+    const input = new FormInputItemWrapper();
+    const viewType = 'local-form-input-wrapper';
+    const id = registerTable.generateId(viewType);
+    input.setId(id);
+    input.viewType = viewType;
+    input.initChildren();
     return input;
   }
 
   push(child) {
-    if (!(child instanceof Input)) {
-      throw new Error('use createInput(), then pass to push function ');
-    }
+    // if (!(child instanceof FormInputWrapper)) {
+    //   throw new Error('use createInput(), then pass to push function ');
+    // }
     super.push(child);
   }
 
   addInput() {
     const input = this.createInput();
-    this.push(input);
+    super.push(input);
     return input;
   }
+
+  initAttrConfig() {
+    return {
+    };
+  }
+
+  initStyleConfig() {
+    return {
+      minHeight: { value: '' },
+    };
+  }
+
+  // @action
+  // initByJSON(data = {}) {
+  //   _.assign(this, _.omit(data, 'children'));
+  //   const children = data.children;
+  //   this.children = children.map(childJSON => {
+  //     const childModel = FormInputWrapper();
+  //     childModel.initByJSON(childJSON);
+  //     return childModel;
+  //   });
+  // }
+
+}
+
+class FormWidget extends WidgetBase {
+
+  initAttrConfig() {
+    return {
+      apiUrl: { title: '请求地址' },
+      method: {
+        title: '请求方法',
+        value: 'post',
+        options: [
+          { value: 'post' },
+          { value: 'put' },
+        ],
+      },
+    };
+  }
+
+  initMethod() {
+    const formInputContainer = new FormInputContainer();
+    formInputContainer.viewType = 'local-form-input-container';
+    formInputContainer.id = registerTable.generateId(formInputContainer.viewType);
+    super.push(formInputContainer);
+    const submitButton = registerTable.createModelInstance('button');
+    submitButton.id = `${this.id}-submit-button`;
+    super.push(submitButton);
+
+    this.formInputContainer = formInputContainer;
+    this.submitButton = submitButton;
+  }
+
+  // @action
+  // initByJSON(data = {}) {
+  //   _.assign(this, _.omit(data, 'children'));
+  //   const children = data.children;
+  //   this.children = children.map(childJSON => {
+  //     const childModel = FormInputContainer();
+  //     childModel.initByJSON(childJSON);
+  //     return childModel;
+  //   });
+  // }
 
 }
 
 export default FormWidget;
+export {
+  FormInputContainer,
+  FormInputItemWrapper,
+  FormLabel,
+  FormInput,
+};

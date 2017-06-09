@@ -17,8 +17,14 @@ function previewStyle(style) {
   return px2rem(appendPx(style));
 }
 
-// TODO: isNode
-window.$idRefMap = {};
+if (!__IS_NODE__) {
+  window.$idRefMap = {};
+}
+function saveDomToGlobal(id, dom) {
+  if (!__IS_NODE__) {
+    window.$idRefMap[id] = dom;
+  }
+}
 
 function showView(config = {}) {
   return (ComposedComponent) => {
@@ -153,10 +159,10 @@ function showView(config = {}) {
       render() {
         const props = this.getProps();
         const model = this.props.model;
-        let composedComponent = <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />;
+        let composedComponent = <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} />;
         if (this.props.htmlMode == 'design' && model.selected) {
           composedComponent = (
-            <ComposedComponent ref={dom => window.$idRefMap[props.id] = dom} {...props} />
+            <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} />
           );
         }
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
@@ -188,7 +194,6 @@ function showView(config = {}) {
     return ShowCompWrapper;
   };
 }
-
 
 
 const showViewPropTypes = {
