@@ -33,15 +33,14 @@ async function buildHtml(json) {
   const styleProcessor = new StyleProcessor();
   const mainContainerStyleText = getDefaultStyle(mainContainer);
   const modalListContainerStyleText = getDefaultStyle(modalListContainer);
-  const finalDefaultStyleText = _.mapValues(
+  const finalDefaultStyleText = _.values(
     _.assign({}, mainContainerStyleText, modalListContainerStyleText),
     value => processTextStyle(value),
   ).join('');
 
   const styleTextList = await styleProcessor.getStyleText();
-
   const reactHtml = ReactDOMServer.renderToStaticMarkup(
-    <ShowComp model={this.mainContainer} processStyle={styleProcessor.processStyle} />,
+    <ShowComp model={mainContainer} processStyle={styleProcessor.processStyle} />,
   );
 
   const styleContent = `

@@ -27,6 +27,7 @@ class StyleProcessor {
   }
 
   getStyleText = () => {
+    console.log(this.styleInfo.length);
     if (this.styleInfo.length == 0) {
       return Promise.resolve([]);
     }
