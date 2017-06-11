@@ -42,6 +42,7 @@ class RegisterTable {
     if (viewType in table && !override) {
       throw new Error(`${viewType} has been existed! use '{ override: true }' if you want override`);
     }
+    // Model.$ShowComp = ShowComp;
     table[viewType] = {
       Model,
       ShowComp,
