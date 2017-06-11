@@ -17,6 +17,9 @@ class BackEndForm extends React.Component {
       .post()
       .then(() => {
         message.success('保存成果');
+      }).catch(err => {
+        console.error(err);
+        message.error(err.data.message);
       });
   }
 

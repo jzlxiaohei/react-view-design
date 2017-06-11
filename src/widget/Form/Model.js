@@ -15,7 +15,7 @@ class FormInput extends WidgetBase {
       field: { value: '', title: '字段 *' },
       type: {
         title: '类型',
-        value: '',
+        value: 'text',
         options: [
           { value: 'text', text: '单行文本' },
           { value: 'textarea', text: '多行文本' }, // number, tel, date等考虑有支持的必要吗

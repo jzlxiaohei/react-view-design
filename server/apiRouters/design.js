@@ -17,9 +17,9 @@ module.exports = (apiApp) => {
     }
     const fileName = path.join(designFilesDirPath, designId, 'design.json');
     if (fsExists(fileName) && !data.force) {
-      return res.status(404).json({
-        code: 40400,
-        message: 'designId not exist',
+      return res.status(400).json({
+        code: 40002,
+        message: `designId:${designId} has been existed, use force if you sure to override!`,
       });
     }
     fsExtra

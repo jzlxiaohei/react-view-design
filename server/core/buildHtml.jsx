@@ -41,7 +41,7 @@ async function buildHtml(json) {
   const mainReactHtml = ReactDOMServer.renderToStaticMarkup(
     <ShowComp model={mainContainer} processStyle={styleProcessor.processStyle} />,
   );
-  const ModalReactHtml = modalListContainer.children.length >0 ? ReactDOMServer.renderToStaticMarkup(
+  const ModalReactHtml = modalListContainer.children.length > 0 ? ReactDOMServer.renderToStaticMarkup(
     <ShowComp model={modalListContainer} processStyle={styleProcessor.processStyle} />,
   ) : '';
 

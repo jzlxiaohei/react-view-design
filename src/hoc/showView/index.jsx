@@ -167,12 +167,12 @@ function showView(config = {}) {
       render() {
         const props = this.getProps();
         const model = this.props.model;
-        let composedComponent = <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} />;
-        if (this.props.htmlMode == 'design' && model.selected) {
-          composedComponent = (
-            <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick} />
-          );
-        }
+        const composedComponent = <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick}/>;
+        // if (this.props.htmlMode == 'design' && model.selected) {
+        //   composedComponent = (
+        //     <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick} />
+        //   );
+        // }
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
           return (
             <DraggableCore
@@ -181,7 +181,7 @@ function showView(config = {}) {
               onStart={this.handleDragStart}
               onStop={this.handleDragEnd}
             >
-              <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom} >
+              <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom} onClick={this.handleClick}>
                 <div
                   className="drag-handle"
                   style={{
