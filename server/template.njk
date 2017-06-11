@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head>
+  <meta charset=utf-8>
+  <title>{{title}}</title>
+  <style>
+  *{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  img{
+    vertical-align: middle;
+  }
+  #root {
+    position: absolute;
+    top:0; left:0; right:0; bottom: 0;
+    margin: 0 auto;
+  }
+
+</style>
+<script>
+  var win = window,
+    doc = win.document;
+  var docEl = doc.documentElement;
+  var flexible = {}
+  // var isAndroid = win.navigator.appVersion.match(/android/gi);
+  var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+  var devicePixelRatio = win.devicePixelRatio;
+
+  var dpr, scale;
+  if (isIPhone) {
+    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+      dpr = 3;
+    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+      dpr = 2;
+    } else {
+      dpr = 1;
+    }
+  } else {
+    dpr = 1;
+  }
+  scale = 1 / dpr;
+
+  docEl.setAttribute('data-dpr', dpr);
+
+  var metaEl = doc.createElement('meta');
+  metaEl.setAttribute('name', 'viewport');
+  metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+  if (docEl.firstElementChild) {
+    docEl.firstElementChild.appendChild(metaEl);
+  } else {
+    var wrap = doc.createElement('div');
+    wrap.appendChild(metaEl);
+    doc.write(wrap.innerHTML);
+  }
+
+  function refreshRem() {
+    var width = docEl.getBoundingClientRect().width;
+    if (width / dpr > 540) {
+      width = 540 * dpr;
+    }
+    var rem = width / 10;
+    docEl.style.fontSize = rem + 'px';
+    flexible.rem = win.rem = rem;
+  }
+
+  var tid
+  win.addEventListener('resize', function () {
+    clearTimeout(tid);
+    tid = setTimeout(refreshRem, 300);
+  }, false);
+
+  win.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      clearTimeout(tid);
+      tid = setTimeout(refreshRem, 300);
+    }
+  }, false);
+
+  if (doc.readyState === 'compvare') {
+    doc.body.style.fontSize = 12 * dpr + 'px';
+  } else {
+    doc.addEventListener('DOMContentLoaded', function (e) {
+      doc.body.style.fontSize = 12 * dpr + 'px';
+    }, false);
+  }
+
+  refreshRem();
+</script>
+
+</head>
+<body>
+  <div id="root">
+  {{ htmlContent | safe }}
+  </div>
+  <script src="//cdn.llscdn.com/fe-static/vendor/fastclick.min.js"></script>
+  <script>
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    }
+  </script>
+  <script>
+    {{scriptText | safe}}
+  </script>
+</body>
+</html>

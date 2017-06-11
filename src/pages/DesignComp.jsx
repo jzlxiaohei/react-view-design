@@ -5,13 +5,16 @@ import { action, extendObservable } from 'mobx';
 import { Tree, Tag, message, Button, Tabs } from 'antd';
 import _ from 'lodash';
 import registerTable from 'globals/registerTable';
-import 'widget/registerWidget';
 import DefaultEditWidget from 'editWidget/DefaultEditWidget';
-import 'editWidget/registerWidgetEditor';
+
+import registerWidget from 'widget/registerWidget';
+import registerEditWidget from 'editWidget/registerWidgetEditor';
 import DesignModel from './DesignModel';
 import BackEndForm from './_BackEndForm';
 import './design-comp.scss';
 
+registerWidget();
+registerEditWidget();
 
 const TreeNode = Tree.TreeNode;
 const TabPane = Tabs.TabPane;
@@ -29,7 +32,7 @@ class DesignComp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.designModel = this.props.designModel;
+    this.designModel = this.props.designModel || new DesignModel();
     this.mainContainer = this.designModel.mainContainer;
     this.mainContainer.setSelected(true);
     this.mainContainer.notAllowDrag = true;

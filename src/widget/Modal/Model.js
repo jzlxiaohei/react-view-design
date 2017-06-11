@@ -1,5 +1,6 @@
 import WidgetBase from '../WidgetBase';
 // import { ModelContainer } from '../Container';
+import registerTable from 'globals/registerTable';
 
 // class Slide extends WidgetBase {
 //   initAttrConfig() {
@@ -10,19 +11,19 @@ import WidgetBase from '../WidgetBase';
 class Modal extends WidgetBase {
 
 
-  // notAllowDrag = true;
+  notAllowDrag = true;
 
   constructor() {
     super();
     this.assignStyle({
       display: 'none',
-      zIndex: 1000,
-      margin: '0 auto',
     });
-    // this.contentWrapper = new ModelContainer();
-    // this.contentWrapper.viewType = 'container';
-    // this.contentWrapper.setId(`${this.id}-modal-content`);
-    // super.push(this.contentWrapper);
+    this.contentWrapper = registerTable.createModelInstance('container');
+    super.push(this.contentWrapper);
+  }
+
+  push() {
+    throw new Error('Modal has only only one container as child, do not call push method');
   }
 
   // push(child) {
@@ -47,14 +48,17 @@ class Modal extends WidgetBase {
   initAttrConfig() {
     return {
       triggerId: { title: '触发组件的ID' },
-      containerBg: { title: '遮罩背景' },
     };
   }
 
   initStyleConfig() {
     return {
-      height: { value: '' },
       display: { ignoreEdit: true },
+      background: { title: '遮罩背景' },
+      position: { value: 'fixed', ignoreEdit: true },
+      height: { ignoreEdit: true, value: '' },
+      minHeight: { ignoreEdit: true, value: '' },
+      color: { ignoreEdit: true },
     };
   }
 }

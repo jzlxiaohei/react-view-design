@@ -30,13 +30,11 @@ function register() {
   registerTable.register('button', ModelButton, CompButton, { title: '按钮' });
 
 
-  // local 意味着由parent 负责相关的构建以及show,edit
-  // 这里register 为了获得全局唯一id
-  // 有点丑，先这样
   registerTable.register('local-form-input-container', FormInputContainer, ShowFormInputContainer, { notAllowAdded: true });
   registerTable.register('local-form-input-wrapper', FormInputItemWrapper, ShowInputWrapper, { notAllowAdded: true });
   registerTable.register('local-form-label', FormLabel, ShowLabel, { notAllowAdded: true });
   registerTable.register('local-form-input', FormInput, ShowInput, { notAllowAdded: true });
 }
 
-register();
+export default register;
+// register();

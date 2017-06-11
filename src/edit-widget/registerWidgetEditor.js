@@ -16,4 +16,5 @@ function register() {
   // registerTable.registerEdit('modal', EditModal);
 }
 
-register();
+export default register;
+// register();

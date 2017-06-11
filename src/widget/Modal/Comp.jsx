@@ -74,11 +74,11 @@ class ShowModal extends React.Component {
 
   render() {
     const props = this.props;
-    const containerStyle = {};
+    // const containerStyle = {};
     this.bindShowModelToTriggerId();
-    if (props.attr.containerBg) {
-      containerStyle.background = props.attr.containerBg;
-    }
+    // if (props.attr.containerBg) {
+    //   containerStyle.background = props.attr.containerBg;
+    // }
     if (this.isCurrentModelParent()) {
       // use containerStyle.style.display = 'block' not working !!?
       setTimeout(() => {
@@ -92,14 +92,14 @@ class ShowModal extends React.Component {
       }, 0);
     }
     return (
-      <div id={props.id} className="comp_show-modal" style={containerStyle} >
-        <div
-          {...props.otherProps}
-          style={_.omit(props.style, ['display'])}
-          {...props.dataAttr}
-        >
-          {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
-        </div>
+      <div
+        className="comp_show-modal"
+        {...props.otherProps}
+        style={props.style}
+        id={props.id}
+        {...props.dataAttr}
+      >
+        {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
       </div>
     );
   }
