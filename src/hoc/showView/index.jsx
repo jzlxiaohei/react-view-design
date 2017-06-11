@@ -5,6 +5,7 @@ import { observe } from 'mobx';
 import { Icon } from 'antd';
 import _ from 'lodash';
 import { DraggableCore } from 'react-draggable';
+import registerTable from 'globals/registerTable';
 import { appendPx, px2rem } from 'utils/processStyle';
 import getDataCustomAttr from 'utils/getDataCustomAttr';
 // import WidgetBase from 'widget/WidgetBase';
@@ -164,15 +165,23 @@ function showView(config = {}) {
         this.props.setCurrentSelectedModel(this.props.model);
       }
 
+      renderChild(childModel, props, index) {
+        const viewType = childModel.viewType;
+        const ShowComp = registerTable.getShowComp(viewType);
+        return <ShowComp key={index} model={childModel} {...props.designViewProps} />;
+      }
+
       render() {
         const props = this.getProps();
         const model = this.props.model;
-        const composedComponent = <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick}/>;
-        // if (this.props.htmlMode == 'design' && model.selected) {
-        //   composedComponent = (
-        //     <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick} />
-        //   );
-        // }
+        const composedComponent = (
+          <ComposedComponent
+            ref={dom => saveDomToGlobal(props.id, dom)}
+            childrenList={props.modelChildren.map((childModel, index) => this.renderChild(childModel, props, index))}
+            {...props}
+            onClick={this.handleClick}
+          />
+        );
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
           return (
             <DraggableCore
@@ -213,6 +222,7 @@ const showViewPropTypes = {
   designViewProps: PropTypes.object.isRequired,
   otherProps: PropTypes.object,
   model: PropTypes.object.isRequired,
+  childrenList: PropTypes.array.isRequired,
 };
 
 export default showView;

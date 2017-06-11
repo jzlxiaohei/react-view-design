@@ -2,8 +2,7 @@ import React from 'react';
 import showView, { showViewPropTypes } from 'hoc/showView';
 
 @showView()
-// @observer
-class WidgetContainer extends React.Component {
+class ShowInput extends React.Component {
 
   static propTypes = {
     ...showViewPropTypes,
@@ -11,18 +10,18 @@ class WidgetContainer extends React.Component {
 
   render() {
     const props = this.props;
+    const { attr } = props;
     return (
-      <div
-        className="common-widget-container"
+      <input
+        className="comp_show-input"
         {...props.otherProps}
-        {...props.dataAttr}
         style={props.style}
         id={props.id}
-      >
-        {this.props.childrenList}
-      </div>
+        {...props.dataAttr}
+        placeholder={attr.placeholder}
+      />
     );
   }
 }
 
-export default WidgetContainer;
+export default ShowInput;

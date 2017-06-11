@@ -1,6 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
-import registerTable from 'globals/registerTable';
 import showView, { showViewPropTypes } from 'hoc/showView';
 import style from './style.scss';
 // import { CompContainer } from '../Container';
@@ -11,12 +9,6 @@ class ShowModal extends React.Component {
   static propTypes = {
     // model: PropTypes.instanceOf(Picture),
     ...showViewPropTypes,
-  }
-
-  renderChild(childModel, index) {
-    const viewType = childModel.viewType;
-    const ShowComp = registerTable.getShowComp(viewType);
-    return <ShowComp key={index} model={childModel} {...this.props.designViewProps} />;
   }
 
   isCurrentModelParent() {
@@ -99,7 +91,7 @@ class ShowModal extends React.Component {
         id={props.id}
         {...props.dataAttr}
       >
-        {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
+        {this.props.childrenList}
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import showView, { showViewPropTypes } from 'hoc/showView';
-import registerTable from 'globals/registerTable';
 import { CompButton } from '../Button';
 
 @showView()
@@ -15,7 +14,6 @@ class ShowLabel extends React.Component {
     const { attr } = this.props;
     return (
       <label
-        htmlFor={props.htmlFor}
         className="comp_show-input-label"
         {...props.otherProps}
         style={props.style}
@@ -66,12 +64,6 @@ class ShowInputWrapper extends React.Component {
     ...showViewPropTypes,
   }
 
-  renderChild(childModel, index) {
-    const viewType = childModel.viewType;
-    const ShowComp = registerTable.getShowComp(viewType);
-    return <ShowComp key={index} model={childModel} {...this.props.designViewProps} />;
-  }
-
   render() {
     const props = this.props;
 
@@ -83,7 +75,7 @@ class ShowInputWrapper extends React.Component {
         id={props.id}
         {...props.dataAttr}
       >
-        {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
+        {this.props.childrenList}
       </div>
     );
   }
@@ -96,12 +88,6 @@ class ShowFormInputContainer extends React.Component {
     ...showViewPropTypes,
   }
 
-  renderChild(childModel, index) {
-    const viewType = childModel.viewType;
-    const ShowComp = registerTable.getShowComp(viewType);
-    return <ShowComp key={index} model={childModel} {...this.props.designViewProps} />;
-  }
-
   render() {
     const props = this.props;
     return (
@@ -112,7 +98,7 @@ class ShowFormInputContainer extends React.Component {
         style={props.style}
         id={props.id}
       >
-        {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
+        {this.props.childrenList}
       </div>
     );
   }

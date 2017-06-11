@@ -11,8 +11,8 @@ class Picture extends WidgetBase {
 
   initAttrConfig() {
     return {
-      url: { title: '图片链接', type: 'text', value: '//cdn.llscdn.com/fe-static/lls-acts/tx-B5Oc6SnV.jpg' },
-      link: { title: '跳转链接', type: 'text' },
+      url: { title: '图片链接', value: '//cdn.llscdn.com/fe-static/lls-acts/tx-B5Oc6SnV.jpg' },
+      link: { title: '跳转链接' },
     };
   }
 
