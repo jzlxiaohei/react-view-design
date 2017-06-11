@@ -33,8 +33,10 @@ async function buildHtml(json) {
   const styleProcessor = new StyleProcessor();
   const mainContainerStyleText = getDefaultStyle(mainContainer);
   const modalListContainerStyleText = getDefaultStyle(modalListContainer);
-  const finalDefaultStyleText = _.assign({}, mainContainerStyleText, modalListContainerStyleText)
-    .map(value => processTextStyle(value)).join('');
+  const finalDefaultStyleText = _.mapValues(
+    _.assign({}, mainContainerStyleText, modalListContainerStyleText),
+    value => processTextStyle(value),
+  ).join('');
 
   const styleTextList = await styleProcessor.getStyleText();
 

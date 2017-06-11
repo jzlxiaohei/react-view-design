@@ -14,6 +14,7 @@
       "regenerator": true
     }],
     ["module-resolver", {
+      "root": ["."],
       "alias": {
         "comps": "./src/components",
         "infra": "./src/infra",

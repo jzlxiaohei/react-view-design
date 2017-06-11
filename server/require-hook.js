@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-// const fs = require('fs');
-const sass = require('node-sass');
-const processStyleText = require('./utils/processStyleText');
+import path from 'path';
+import fs from 'fs';
+import sass from 'node-sass';
+import processStyleText from './utils/processStyleText';
 
 // const originJsExtension = require.extensions['.js'];
 
@@ -38,10 +38,10 @@ function empty() {
   return '';
 }
 
-// function outputFileContent(fileName) {
-//   return fs.readFileSync(fileName).toString();
-// }
+function outputFileContent(fileName) {
+  return fs.readFileSync(fileName).toString();
+}
 
 hook(compileSass, '.scss');
-// hook(outputFileContent, '.css');
+hook(outputFileContent, '.css');
 hook(empty, '.yml');
