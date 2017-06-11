@@ -1,5 +1,5 @@
 import registerTable from 'globals/registerTable';
-import { extendObservable } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import ajax from 'utils/ajax';
 
 class DesignModel {
@@ -14,6 +14,12 @@ class DesignModel {
     });
   }
 
+  @action
+  setDesignId(id) {
+    this.designId = id;
+    return this;
+  }
+
   fetch() {
     if (!this.designId) {
       return Promise.reject('DesignModel fetch data: designId required');
@@ -22,8 +28,8 @@ class DesignModel {
       method: 'get',
       url: `/designs/${this.designId}`,
     }).then((data) => {
-      this.mainContainer.initByPlainData(data.mainContainer);
-      this.modalListContainer.initByPlainData(data.modalListContainer);
+      this.mainContainer.initByJSON(data.mainContainer);
+      this.modalListContainer.initByJSON(data.modalListContainer);
       this.designId = data.designId;
       this.note = data.note;
     });

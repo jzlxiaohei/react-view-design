@@ -1,1 +1,145 @@
-{"designId":"demo-form","note":"demo for form","mainContainer":{"viewType":"container","attr":{"id":""},"style":{"width":"100%","minHeight":100,"color":"","position":"relative"},"id":"main-container","children":[{"viewType":"form","attr":{"id":"","apiUrl":"","method":"post"},"style":{"width":"100%","minHeight":100,"color":"","position":"relative"},"id":"form-1","children":[{"viewType":"local-form-input-container","attr":{"id":""},"style":{"width":"100%","minHeight":"","color":"","position":"relative","margin":"20px 0","borderTop":"1px solid rgba(0,0,0,.2)","borderBottom":"1px solid rgba(0,0,0,.2)","padding":"0 10px"},"id":"local-form-input-container-1","children":[{"viewType":"local-form-input-wrapper","attr":{"id":""},"style":{"width":"100%","minHeight":"","color":"","position":"relative","height":"44","lineHeight":"44","padding":"0 15px 0 45px","borderBottom":"1px solid rgba(0,0,0,.2)"},"id":"local-form-input-wrapper-1","children":[{"viewType":"local-form-label","attr":{"id":"","text":"标签文本"},"style":{"width":"100%","minHeight":"","color":"","position":"absolute","display":"inline-block"},"id":"local-form-label-1","children":[]},{"viewType":"local-form-input","attr":{"id":"","text":"标签文本","field":"mobile"},"style":{"width":"100%","minHeight":"","color":"","position":"relative","display":"inline-block","height":30,"border":"none"},"id":"local-form-input-1","children":[]}]}]},{"viewType":"button","attr":{"id":"","text":"button"},"style":{"width":"100%","minHeight":"","color":"#fff","position":"relative","height":44,"lineHeight":44,"backgroundColor":"#F50","margin":"0 auto","textAlign":"center","fontSize":16},"id":"form-1-submit-button","children":[]}]}]},"modalListContainer":{"viewType":"container","attr":{"id":""},"style":{"width":"100%","minHeight":100,"color":"","position":"relative"},"id":"modal-list-container","children":[]},"force":false}
+{
+  "designId": "demo-form",
+  "note": "demo for form",
+  "mainContainer": {
+    "viewType": "container",
+    "attr": {
+      "id": ""
+    },
+    "style": {
+      "width": "100%",
+      "minHeight": 100,
+      "color": "",
+      "position": "relative"
+    },
+    "id": "main-container",
+    "children": [
+      {
+        "viewType": "form",
+        "attr": {
+          "id": "",
+          "apiUrl": "",
+          "method": "post"
+        },
+        "style": {
+          "width": "100%",
+          "minHeight": 100,
+          "color": "",
+          "position": "relative"
+        },
+        "id": "form-1",
+        "children": [
+          {
+            "viewType": "local-form-input-container",
+            "attr": {
+              "id": ""
+            },
+            "style": {
+              "width": "100%",
+              "minHeight": "",
+              "color": "",
+              "position": "relative",
+              "margin": "20px 0",
+              "borderTop": "1px solid rgba(0,0,0,.2)",
+              "borderBottom": "1px solid rgba(0,0,0,.2)",
+              "padding": "0 10px"
+            },
+            "id": "local-form-input-container-1",
+            "children": [
+              {
+                "viewType": "local-form-input-wrapper",
+                "attr": {
+                  "id": ""
+                },
+                "style": {
+                  "width": "100%",
+                  "minHeight": "",
+                  "color": "",
+                  "position": "relative",
+                  "height": "44",
+                  "lineHeight": "44",
+                  "padding": "0 15px 0 45px",
+                  "borderBottom": "1px solid rgba(0,0,0,.2)"
+                },
+                "id": "local-form-input-wrapper-1",
+                "children": [
+                  {
+                    "viewType": "local-form-label",
+                    "attr": {
+                      "id": "",
+                      "text": "标签文本"
+                    },
+                    "style": {
+                      "width": "100%",
+                      "minHeight": "",
+                      "color": "",
+                      "position": "absolute",
+                      "display": "inline-block"
+                    },
+                    "id": "local-form-label-1",
+                    "children": []
+                  },
+                  {
+                    "viewType": "local-form-input",
+                    "attr": {
+                      "id": "",
+                      "text": "标签文本",
+                      "field": "mobile"
+                    },
+                    "style": {
+                      "width": "100%",
+                      "minHeight": "",
+                      "color": "",
+                      "position": "relative",
+                      "display": "inline-block",
+                      "height": 30,
+                      "border": "none"
+                    },
+                    "id": "local-form-input-1",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "viewType": "button",
+            "attr": {
+              "id": "",
+              "text": "button"
+            },
+            "style": {
+              "width": "100%",
+              "minHeight": "",
+              "color": "#fff",
+              "position": "relative",
+              "height": 44,
+              "lineHeight": 44,
+              "backgroundColor": "#F50",
+              "margin": "0 auto",
+              "textAlign": "center",
+              "fontSize": 16
+            },
+            "id": "form-1-submit-button",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "modalListContainer": {
+    "viewType": "container",
+    "attr": {
+      "id": ""
+    },
+    "style": {
+      "width": "100%",
+      "minHeight": 100,
+      "color": "",
+      "position": "relative"
+    },
+    "id": "modal-list-container",
+    "children": []
+  },
+  "force": false
+}

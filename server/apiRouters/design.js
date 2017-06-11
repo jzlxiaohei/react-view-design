@@ -3,7 +3,7 @@ const fsExists = require('fs-exists-sync');
 const fsExtra = require('fs-extra');
 const glob = require('glob');
 
-const designFilesDirPath = path.join(__dirname, '..designFiles');
+const designFilesDirPath = path.join(__dirname, '../designFiles');
 
 module.exports = (apiApp) => {
   apiApp.post('/designs', (req, res) => {
@@ -44,7 +44,7 @@ module.exports = (apiApp) => {
   });
 
   apiApp.get('/designs/:designId', (req, res) => {
-    const designId = res.params.designId;
+    const designId = req.params.designId;
     const fileName = path.join(designFilesDirPath, designId, 'design.json');
     if (!fsExists(fileName)) {
       return res.status(404).json({

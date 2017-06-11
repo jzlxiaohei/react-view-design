@@ -17,18 +17,19 @@ const TreeNode = Tree.TreeNode;
 const TabPane = Tabs.TabPane;
 
 @observer
-class DesignPage extends React.Component {
+class DesignComp extends React.Component {
 
 
   static propTypes = {
     // mainContainer: PropTypes.instanceOf(ModelContainer).isRequired,
     // modalListContainer: PropTypes.instanceOf(ModelContainer).isRequired,
     initMockModel: PropTypes.func,
+    designModel: PropTypes.instanceOf(DesignModel).isRequired,
   }
 
   constructor(props) {
     super(props);
-    this.designModel = new DesignModel();
+    this.designModel = this.props.designModel;
     this.mainContainer = this.designModel.mainContainer;
     this.mainContainer.setSelected(true);
     this.mainContainer.notAllowDrag = true;
@@ -64,7 +65,12 @@ class DesignPage extends React.Component {
   renderShowArea(model) {
     /* eslint-disable no-param-reassign*/
     const ShowComp = registerTable.getShowComp(model.viewType);
-    return <ShowComp model={model} htmlMode="design" currentSelectedModel={this.currentSelectedModel} />;
+    return (
+      <ShowComp
+        model={model} htmlMode="design" currentSelectedModel={this.currentSelectedModel}
+        setCurrentSelectedModel={this.setCurrentSelectedModel}
+      />)
+    ;
   }
 
   handleViewTypeClick = (viewType) => {
@@ -132,6 +138,13 @@ class DesignPage extends React.Component {
     } else {
       console.warn(`can not find ${selectedId} from ${rootModel}`);
     }
+  })
+
+
+  setCurrentSelectedModel = action((selectedModel) => {
+    this.currentSelectedModel.setSelected(false);
+    selectedModel.setSelected(true);
+    this.currentSelectedModel = selectedModel;
   })
 
 
@@ -259,4 +272,4 @@ class DesignPage extends React.Component {
   }
 }
 
-export default DesignPage;
+export default DesignComp;

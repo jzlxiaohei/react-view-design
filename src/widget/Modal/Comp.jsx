@@ -79,7 +79,6 @@ class ShowModal extends React.Component {
     if (props.attr.containerBg) {
       containerStyle.background = props.attr.containerBg;
     }
-    const className = 'comp_show-modal';
     if (this.isCurrentModelParent()) {
       // use containerStyle.style.display = 'block' not working !!?
       setTimeout(() => {
@@ -93,7 +92,7 @@ class ShowModal extends React.Component {
       }, 0);
     }
     return (
-      <div id={props.id} className={className} style={containerStyle} >
+      <div id={props.id} className="comp_show-modal" style={containerStyle} >
         <div
           {...props.otherProps}
           style={_.omit(props.style, ['display'])}

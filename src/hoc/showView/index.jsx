@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { DraggableCore } from 'react-draggable';
 import { appendPx, px2rem } from 'utils/processStyle';
 import getDataCustomAttr from 'utils/getDataCustomAttr';
+// import WidgetBase from 'widget/WidgetBase';
 import './index.scss';
 
 function designStyle(style) {
@@ -44,13 +45,11 @@ function showView(config = {}) {
         htmlMode: PropTypes.string,
         processStyle: PropTypes.func,
         processAttr: PropTypes.func,
+        // currentSelectedModel: PropTypes.instanceOf(WidgetBase), required ,but not used explicitly here
+        setCurrentSelectedModel: PropTypes.func.isRequired,
       }
 
       static styleText = config.style;
-
-      // static contextTypes = {
-      //   currentSelectedModel: PropTypes.instanceOf(WidgetBase).isRequired,
-      // }
 
       componentDidMount() {
         if (this.props.htmlMode !== 'design') return;
@@ -110,10 +109,14 @@ function showView(config = {}) {
         const designViewProps = [
           'htmlMode', 'processStyle',
           'processAttr', 'currentSelectedModel',
+          'setCurrentSelectedModel',
         ];
 
+        const otherProps = _.omit(this.props, designViewProps.concat('model'));
+        otherProps.onClick = this.handleClick;
+
         return {
-          otherProps: _.omit(this.props, designViewProps.concat('model')),
+          otherProps,
           id: model.attr.id || model.id, // attr id first
           style: processStyle(modelStyle, model),
           attr: processAttr(model.attr),
@@ -156,13 +159,18 @@ function showView(config = {}) {
         ) && !this.props.model.notAllowDrag;
       }
 
+      handleClick = (e) => {
+        e.stopPropagation();
+        this.props.setCurrentSelectedModel(this.props.model);
+      }
+
       render() {
         const props = this.getProps();
         const model = this.props.model;
         let composedComponent = <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} />;
         if (this.props.htmlMode == 'design' && model.selected) {
           composedComponent = (
-            <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} />
+            <ComposedComponent ref={dom => saveDomToGlobal(props.id, dom)} {...props} onClick={this.handleClick} />
           );
         }
         if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
