@@ -46,7 +46,7 @@ function showView(config = {}) {
         processStyle: PropTypes.func,
         processAttr: PropTypes.func,
         // currentSelectedModel: PropTypes.instanceOf(WidgetBase), required ,but not used explicitly here
-        setCurrentSelectedModel: PropTypes.func.isRequired,
+        setCurrentSelectedModel: PropTypes.func,
       }
 
       static styleText = config.style;

@@ -33,26 +33,29 @@ async function buildHtml(json) {
   const styleProcessor = new StyleProcessor();
   const mainContainerStyleText = getDefaultStyle(mainContainer);
   const modalListContainerStyleText = getDefaultStyle(modalListContainer);
-  const finalDefaultStyleText = _.values(
+  const finalDefaultStyleTextList = _.values(
     _.assign({}, mainContainerStyleText, modalListContainerStyleText),
     value => processTextStyle(value),
-  ).join('');
-
-  const styleTextList = await styleProcessor.getStyleText();
-  const reactHtml = ReactDOMServer.renderToStaticMarkup(
-    <ShowComp model={mainContainer} processStyle={styleProcessor.processStyle} />,
   );
 
-  const styleContent = `
-    <style>${finalDefaultStyleText}</style>
-    <style>${styleTextList.join('')}</style>
-  `;
-  const htmlContent = `
-    ${reactHtml}
-  `;
+  const mainReactHtml = ReactDOMServer.renderToStaticMarkup(
+    <ShowComp model={mainContainer} processStyle={styleProcessor.processStyle} />,
+  );
+  const ModalReactHtml = modalListContainer.children.length >0 ? ReactDOMServer.renderToStaticMarkup(
+    <ShowComp model={modalListContainer} processStyle={styleProcessor.processStyle} />,
+  ) : '';
+
+  const inlineStyleTextList = await styleProcessor.getStyleText();
+
   return {
-    styleContent,
-    htmlContent,
+    style: {
+      default: finalDefaultStyleTextList.join(''),
+      inline: inlineStyleTextList.join(''),
+    },
+    html: {
+      main: mainReactHtml,
+      modal: ModalReactHtml,
+    },
   };
 }
 
