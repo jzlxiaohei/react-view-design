@@ -10,6 +10,10 @@
   img{
     vertical-align: middle;
   }
+  a{
+    text-decoration: none;
+    color: #0085ff;
+  }
   #root {
     position: absolute;
     top:0; left:0; right:0; bottom: 0;
@@ -86,10 +90,11 @@
 
   refreshRem();
 </script>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
-  <div id="root">
+  <div id="real-page-root">
   {{ htmlContent | safe }}
   </div>
   <script src="//cdn.llscdn.com/fe-static/vendor/fastclick.min.js"></script>

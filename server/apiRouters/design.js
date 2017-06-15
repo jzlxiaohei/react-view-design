@@ -2,8 +2,38 @@ const path = require('path');
 const fsExists = require('fs-exists-sync');
 const fsExtra = require('fs-extra');
 const glob = require('glob');
+const rollup = require('rollup');
+const memory = require('rollup-plugin-memory');
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+// const multiEntry =  require('rollup-plugin-multi-entry');
 
 const designFilesDirPath = path.join(__dirname, '../designFiles');
+
+function compileScript(scriptContent) {
+  return rollup.rollup({
+    entry: {
+      path: '',
+      contents: scriptContent,
+    },
+    external: ['jQuery'],
+    plugins: [
+      memory(),
+      // multiEntry(),
+      resolve(),
+      commonjs(),
+    ],
+  }).then((bundle) => {
+    return bundle.generate({
+      format: 'iife',
+      useStrict: false,
+      moduleName: 'NO_MEANING',
+      globals: {
+        jQuery: 'jQuery',
+      },
+    }).code;
+  });
+}
 
 module.exports = (apiApp) => {
   apiApp.post('/designs', (req, res) => {
@@ -36,7 +66,7 @@ module.exports = (apiApp) => {
   apiApp.get('/designs', (req, res) => {
     const fileList = glob.sync(path.join(designFilesDirPath, '**/design.json'));
     const designIds = fileList.map(fName => {
-      return path.relative(designFilesDirPath, fName).replace('/design.json');
+      return path.relative(designFilesDirPath, fName).replace('/design.json', '');
     });
     return res.json({
       designIds,
@@ -46,19 +76,41 @@ module.exports = (apiApp) => {
   apiApp.get('/designs/:designId', (req, res) => {
     const designId = req.params.designId;
     const fileName = path.join(designFilesDirPath, designId, 'design.json');
+    const jsFile = path.join(designFilesDirPath, designId, 'index.entry-script.js');
+    const cssFile = path.join(designFilesDirPath, designId, 'index.scss');
+    let cssContent = '';
+    /* eslint-disable import/no-dynamic-require */
+
+    if (fsExists(cssFile)) {
+      cssContent = require(cssFile);
+    }
+
     if (!fsExists(fileName)) {
       return res.status(404).json({
         code: 40400,
         message: 'designId not exist',
       });
     }
-    fsExtra.readJson(fileName)
-      .then(obj => {
-        res.json(obj);
-      })
-      .catch(err => {
-        // can res.json(err)?
-        res.status(500).json(err);
-      });
+    const obj = fsExtra.readJsonSync(fileName);
+    if (fsExists(jsFile)) {
+      const jsContent = require(jsFile);
+      return compileScript(jsContent).then()
+        .then(jsCode => {
+          res.json({
+            json: obj,
+            js: jsCode,
+            css: cssContent,
+          });
+        })
+        .catch(err => {
+          // can res.json(err)?
+          res.status(500).json(err);
+        });
+    }
+    return res.json({
+      json: obj,
+      css: cssContent,
+      js: '',
+    });
   });
 };

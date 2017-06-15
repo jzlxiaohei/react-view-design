@@ -36,7 +36,8 @@ function showView(config = {}) {
       constructor(props) {
         super(props);
         this.state = {
-          x: 0, y: 0,
+          x: 0,
+          y: 0,
         };
         this.isDragging = false;
       }
@@ -51,35 +52,6 @@ function showView(config = {}) {
       }
 
       static styleText = config.style;
-
-      componentDidMount() {
-        if (this.props.htmlMode !== 'design') return;
-
-        this.disposerForObs = observe(
-          this.props.model,
-          'style',
-          (change) => {
-            const newPos = change.newValue.position;
-            const oldPos = change.oldValue.position;
-            if (newPos == oldPos) return;
-            if (newPos == 'absolute' || newPos == 'fixed') {
-              const { left, top } = this.dragContainer.getBoundingClientRect();
-              this.state.x = left;
-              this.state.y = top;
-            }
-            if (oldPos == 'absolute' || oldPos == 'fixed') {
-              this.state.x = 0;
-              this.state.y = 0;
-            }
-          },
-        );
-      }
-
-      componentWillUnmount() {
-        if (this.disposerForObs) {
-          this.disposerForObs();
-        }
-      }
 
 
       getProps() {
@@ -139,14 +111,15 @@ function showView(config = {}) {
         });
       }
 
-      handleDragStart = () => {
+      handleDragStart = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.isDragging = true;
       }
 
       handleDrag = (e, data) => {
         if (!this.isDraggable()) return;
         const { x, y } = this.state;
-        // const model = this.props.model;
         this.setState({
           x: x + data.deltaX,
           y: y + data.deltaY,
@@ -161,8 +134,10 @@ function showView(config = {}) {
       }
 
       handleClick = (e) => {
-        e.stopPropagation();
-        this.props.setCurrentSelectedModel(this.props.model);
+        if (e.target == e.currentTarget) {
+          // e.stopPropagation();
+          this.props.setCurrentSelectedModel(this.props.model);
+        }
       }
 
       renderChild(childModel, props, index) {
@@ -182,30 +157,37 @@ function showView(config = {}) {
             onClick={this.handleClick}
           />
         );
-        if (this.props.htmlMode == 'design' && model.selected && this.isDraggable()) {
+
+        if (model.notAllowWrap) {
+          return composedComponent;
+        }
+        const isDraggable = this.isDraggable();
+        if (this.props.htmlMode == 'design' && model.selected && isDraggable) {
           return (
-            <DraggableCore
-              handle=".drag-handle"
-              onDrag={this.handleDrag}
-              onStart={this.handleDragStart}
-              onStop={this.handleDragEnd}
-            >
-              <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom} onClick={this.handleClick}>
-                <div
-                  className="drag-handle"
-                  style={{
-                    top: this.state.y,
-                    left: this.state.x,
-                  }}
-                >
-                  <Icon type="bars" />
+            <span>
+              {composedComponent}
+              <DraggableCore
+                handle=".drag-handle"
+                onDrag={this.handleDrag}
+                onStart={this.handleDragStart}
+                onStop={this.handleDragEnd}
+              >
+                <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom}>
+                  <div
+                    className="drag-handle"
+                    style={{
+                      top: this.state.y,
+                      left: this.state.x,
+                    }}
+                  >
+                    <Icon type="bars" />
+                  </div>
                 </div>
-                {composedComponent}
-              </div>
-            </DraggableCore>
+              </DraggableCore>
+            </span>
           );
         }
-        return composedComponent;
+        return <span>{composedComponent}</span>;
       }
     }
     return ShowCompWrapper;

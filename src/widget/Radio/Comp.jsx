@@ -13,13 +13,13 @@ class ShowInput extends React.Component {
     const { attr } = props;
     return (
       <input
-        className="comp_show-input"
+        type="radio"
+        className="comp_show-radio"
+        name={attr.name}
         {...props.otherProps}
         style={props.style}
         id={props.id}
         {...props.dataAttr}
-        placeholder={attr.placeholder}
-        type={attr.type}
       />
     );
   }

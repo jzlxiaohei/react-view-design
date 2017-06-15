@@ -16,7 +16,7 @@ class ShowButton extends React.Component {
     const { attr } = props;
     return (
       <div
-        className="comp_show-text"
+        className="comp_show-button"
         {...props.otherProps}
         style={props.style}
         id={props.id}

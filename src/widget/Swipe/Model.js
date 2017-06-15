@@ -1,6 +1,6 @@
+import registerTable from 'globals/registerTable';
 import WidgetBase from '../WidgetBase';
 import { ModelContainer } from '../Container';
-
 // class Slide extends WidgetBase {
 //   initAttrConfig() {
 //     return {};
@@ -19,27 +19,27 @@ class Swipe extends WidgetBase {
   }
 
   createSlide() {
-    const slide = new ModelContainer();
-    slide.setId(`${this.id}-slide-${this.idSeq++}`);
-    slide.viewType = 'container';
+    const slide = registerTable.createModelInstance('container');
     slide.assignStyle({
       // background: 'red',
       position: '',
       width: '100%',
     });
+    slide.notAllowDrag = true;
+    slide.notAllowWrap = true;
     return slide;
   }
 
   push(child) {
-    if (!(child instanceof ModelContainer)) {
-      throw new Error('use createSlide(), then pass to push function ');
+    if (child instanceof ModelContainer && child.notAllowDrag) {
+      return super.push(child);
     }
-    super.push(child);
+    throw new Error('use createSlide(), then pass to push function ');
   }
 
   addSlide() {
     const slide = this.createSlide();
-    this.push(slide);
+    super.push(slide);
     return slide;
   }
 }

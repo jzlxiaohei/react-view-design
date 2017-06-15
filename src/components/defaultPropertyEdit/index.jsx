@@ -30,7 +30,7 @@ class DefaultPropertyEdit extends React.Component {
   }
 
   removeAttr = (key) => {
-    this.props.model.removeAttr(key)
+    this.props.model.removeAttr(key);
   }
 
   render() {

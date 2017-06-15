@@ -19,7 +19,11 @@ class StyleProcessor {
     // postcss([autoprefixer]).process(style, { parser: postcssJs }).then((result) => {
     //   console.log(result.css);
     // });
-    const styleWithRem = styleUtils.px2rem(styleUtils.appendPx(style));
+    const styleObj = styleUtils.appendPx(style);
+    const compactStyleObj = _.omitBy(styleObj, (value) => {
+      if (value === '' || value == 0) return true;
+    });
+    const styleWithRem = styleUtils.px2rem(compactStyleObj);
     const cssPromise = postcss([autoprefixer]).process(styleWithRem, { parser: postcssJs });
     this.idInfo.push(id);
     this.styleInfo.push(cssPromise);
@@ -34,7 +38,7 @@ class StyleProcessor {
       return styleTextList.map((styleText, index) => {
         return `
 #${this.idInfo[index]} {
-  ${styleText}
+${styleText}
 }
         `;
       });

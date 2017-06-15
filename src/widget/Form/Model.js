@@ -2,36 +2,36 @@ import { action } from 'mobx';
 import registerTable from 'globals/registerTable';
 import WidgetBase from '../WidgetBase';
 
-class FormInput extends WidgetBase {
+// class FormInput extends WidgetBase {
 
-  constructor() {
-    super();
-    this.isContainer = false;
-  }
+//   constructor() {
+//     super();
+//     this.isContainer = false;
+//   }
 
-  initAttrConfig() {
-    return {
-      placeholder: { value: '', title: '占位文字' },
-      field: { value: '', title: '字段 *' },
-      type: {
-        title: '类型',
-        value: 'text',
-        options: [
-          { value: 'text', text: '单行文本' },
-          { value: 'textarea', text: '多行文本' }, // number, tel, date等考虑有支持的必要吗
-        ],
-      },
-    };
-  }
+//   initAttrConfig() {
+//     return {
+//       placeholder: { value: '', title: '占位文字' },
+//       field: { value: '', title: '字段 *' },
+//       type: {
+//         title: '类型',
+//         value: 'text',
+//         options: [
+//           { value: 'text', text: '单行文本' },
+//           { value: 'textarea', text: '多行文本' }, // number, tel, date等考虑有支持的必要吗
+//         ],
+//       },
+//     };
+//   }
 
-  initStyleConfig() {
-    return {
-      WebkitAppearance: { value: 'none' },
-      minHeight: { value: '' },
-      border: { value: 'none' },
-    };
-  }
-}
+//   initStyleConfig() {
+//     return {
+//       WebkitAppearance: { value: 'none' },
+//       minHeight: { value: '' },
+//       border: { value: 'none' },
+//     };
+//   }
+// }
 
 class FormLabel extends WidgetBase {
 
@@ -81,7 +81,7 @@ class FormInputItemWrapper extends WidgetBase {
   initChildren() {
     // this.children = [];
     this.label = this._initChild('local-form-label', FormLabel);
-    this.input = this._initChild('local-form-input', FormLabel);
+    this.input = this._initChild('input', FormLabel);
   }
 
   initAttrConfig() {
@@ -114,7 +114,7 @@ class FormInputContainer extends WidgetBase {
 
   createInput() {
     const input = new FormInputItemWrapper();
-    const viewType = 'local-form-input-wrapper';
+    const viewType = 'local-form-item-wrapper';
     const id = registerTable.generateId(viewType);
     input.setId(id);
     input.viewType = viewType;
@@ -177,15 +177,15 @@ class FormWidget extends WidgetBase {
 
   initMethod() {
     const formInputContainer = new FormInputContainer();
-    formInputContainer.viewType = 'local-form-input-container';
+    formInputContainer.viewType = 'local-form-item-container';
     formInputContainer.id = registerTable.generateId(formInputContainer.viewType);
     super.push(formInputContainer);
     const submitButton = registerTable.createModelInstance('button');
     submitButton.id = `${this.id}-submit-button`;
     super.push(submitButton);
 
-    this.formInputContainer = formInputContainer;
-    this.submitButton = submitButton;
+    // this.formInputContainer = formInputContainer;
+    // this.submitButton = submitButton;
   }
 
   // @action
@@ -206,5 +206,5 @@ export {
   FormInputContainer,
   FormInputItemWrapper,
   FormLabel,
-  FormInput,
+  // FormInput,
 };

@@ -15,7 +15,7 @@ class ShowEdit extends React.Component {
     const props = this.props;
     const { attr } = props;
     return (
-      <div
+      <span
         className="comp_show-text"
         {...props.otherProps}
         style={props.style}
@@ -24,10 +24,10 @@ class ShowEdit extends React.Component {
       >
         {
           attr.content.map(
-            (text, index) => <div className="text" key={index}>{text}</div>,
+            (text, index) => <span className="text" key={index}>{index !== 0 ? <br /> : null}{text}</span>,
           )
         }
-      </div>
+      </span>
     );
   }
 }

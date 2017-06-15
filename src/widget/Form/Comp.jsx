@@ -1,6 +1,6 @@
 import React from 'react';
 import showView, { showViewPropTypes } from 'hoc/showView';
-import { CompButton } from '../Button';
+// import { CompButton } from '../Button';
 
 @showView()
 class ShowLabel extends React.Component {
@@ -26,36 +26,36 @@ class ShowLabel extends React.Component {
   }
 }
 
-@showView()
-class ShowInput extends React.Component {
-  static propTypes = {
-    ...showViewPropTypes,
-  }
+// @showView()
+// class ShowInput extends React.Component {
+//   static propTypes = {
+//     ...showViewPropTypes,
+//   }
 
-  render() {
-    const props = this.props;
-    const { attr } = props;
-    if (!attr.field) {
-      return (
-        <div className="danger-action">
-          field(字段名) 必须提供，才可以编辑文本框
-        </div>
-      );
-    }
-    const propsObj = {
-      className: 'comp_show-input',
-      ...props.otherProps,
-      style: props.style,
-      id: props.id,
-      ...props.dataAttr,
-    };
-    return (
-      attr.type == 'textarea' ?
-        <textarea {...propsObj} /> :
-        <input {...propsObj} type={attr.type} />
-    );
-  }
-}
+//   render() {
+//     const props = this.props;
+//     const { attr } = props;
+//     if (!attr.field) {
+//       return (
+//         <div className="danger-action">
+//           field(字段名) 必须提供，才可以编辑文本框
+//         </div>
+//       );
+//     }
+//     const propsObj = {
+//       className: 'comp_show-input',
+//       ...props.otherProps,
+//       style: props.style,
+//       id: props.id,
+//       ...props.dataAttr,
+//     };
+//     return (
+//       attr.type == 'textarea' ?
+//         <textarea {...propsObj} /> :
+//         <input {...propsObj} type={attr.type} />
+//     );
+//   }
+// }
 
 @showView()
 class ShowInputWrapper extends React.Component {
@@ -123,10 +123,7 @@ class ShowForm extends React.Component {
         id={props.id}
         {...props.dataAttr}
       >
-        <ShowFormInputContainer model={props.modelChildren[0]} {...this.props.designViewProps} />
-        <div className="form-submit-button">
-          <CompButton model={props.modelChildren[1]} {...this.props.designViewProps} />
-        </div>
+        {this.props.childrenList}
       </form>
     );
   }
@@ -136,6 +133,6 @@ export default ShowForm;
 export {
   ShowFormInputContainer,
   ShowInputWrapper,
-  ShowInput,
+  // ShowInput,
   ShowLabel,
 };

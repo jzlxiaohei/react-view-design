@@ -9,9 +9,18 @@ class ShowLink extends React.Component {
     ...showViewPropTypes,
   }
 
+  handelClick = (e) => {
+    e.preventDefault();
+    this.props.onClick(e);
+  }
+
   render() {
     const props = this.props;
     const { attr } = props;
+    // const otherProps = props.otherProps;
+    // if (this.props.designViewProps.htmlModel == 'design') {
+    //   otherProps.target = '__blank';
+    // }
     return (
       <a
         className="comp_show-link"
@@ -20,6 +29,7 @@ class ShowLink extends React.Component {
         id={props.id}
         {...props.dataAttr}
         href={attr.link}
+        onClick={this.handelClick}
       >
         {props.childrenList.length > 0 ?
           props.childrenList :

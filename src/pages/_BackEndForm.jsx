@@ -19,7 +19,7 @@ class BackEndForm extends React.Component {
         message.success('保存成果');
       }).catch(err => {
         console.error(err);
-        message.error(err.data.message);
+        message.error('失败');
       });
   }
 

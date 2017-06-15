@@ -1,10 +1,13 @@
 import registerTable from 'globals/registerTable';
 import { extendObservable, action } from 'mobx';
 import ajax from 'utils/ajax';
+import { addReq } from 'infra/model/utils';
 
+// 自在浏览器环境下用
 class DesignModel {
 
   constructor() {
+    addReq(this, ajax);
     extendObservable(this, {
       designId: '',
       note: '',
@@ -24,15 +27,31 @@ class DesignModel {
     if (!this.designId) {
       return Promise.reject('DesignModel fetch data: designId required');
     }
-    ajax({
+    return this.$request({
       method: 'get',
       url: `/designs/${this.designId}`,
     }).then((data) => {
-      this.mainContainer.initByJSON(data.mainContainer);
-      this.modalListContainer.initByJSON(data.modalListContainer);
-      this.designId = data.designId;
-      this.note = data.note;
+      const json = data.json;
+      registerTable.initIdGenerator(json.idGenerator);
+      this.mainContainer.initByJSON(json.mainContainer);
+      this.modalListContainer.initByJSON(json.modalListContainer);
+      this.designId = json.designId;
+      this.note = json.note;
+      const js = data.js;
+      const css = data.css;
+      this.createScriptAndStyle(js, css);
     });
+  }
+
+  createScriptAndStyle(js, css) {
+    const styleDom = document.createElement('style');
+    styleDom.innerHTML = css;
+    styleDom.type = 'text/css';
+    document.body.appendChild(styleDom);
+
+    const script = document.createElement('script');
+    script.innerHTML = js;
+    document.body.appendChild(script);
   }
 
   post() {
@@ -44,10 +63,11 @@ class DesignModel {
       note: this.note,
       mainContainer: this.mainContainer.getJSON(),
       modalListContainer: this.modalListContainer.getJSON(),
+      idGenerator: registerTable.getIdGenerator(),
       force: this.force,
     };
 
-    return ajax({
+    return this.$request({
       method: 'post',
       url: '/designs',
       data,

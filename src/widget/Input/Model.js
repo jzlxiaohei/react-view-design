@@ -10,6 +10,13 @@ class Input extends WidgetBase {
   initAttrConfig() {
     return {
       placeholder: { title: '占位文字(无输入时显示)' },
+      type: {
+        value: 'text',
+        options: [
+          { value: 'text', title: '文本' },
+          { value: 'password', title: '密码' },
+        ],
+      },
     };
   }
 
@@ -17,6 +24,7 @@ class Input extends WidgetBase {
     return {
       width: { value: '' },
       minHeight: { value: '' },
+      fontSize: { value: 12 },
     };
   }
 

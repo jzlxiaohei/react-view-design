@@ -1,8 +1,5 @@
-// let modelShowPairTable = {};
-// let editTable = {};
+import _ from 'lodash';
 
-
-// not sure it is singleton
 class RegisterTable {
   modelShowPairTable = {}
   editTable = {}
@@ -17,8 +14,12 @@ class RegisterTable {
     }
   }
 
-  initIdGenerator(idGenerator) {
+  initIdGenerator(idGenerator = {}) {
     this.idGenerator = idGenerator;
+  }
+
+  getIdGenerator() {
+    return this.idGenerator;
   }
 
   generateId(viewType) {
@@ -89,10 +90,22 @@ class RegisterTable {
     return this.editTable[viewType];
   }
 
+  ensureId(viewType, id) {
+    if (!viewType) throw new Error(`viewType required. got ${viewType}`);
+    if (id && _.startsWith(id, `${viewType}-`)) {
+      const idIndex = +id.replace(`${viewType}-`, '');
+      this.idGenerator[viewType] = this.idGenerator[viewType] || 1;
+      if (idIndex >= this.idGenerator[viewType]) {
+        this.idGenerator[viewType] = idIndex + 1;
+      }
+    }
+  }
+
   createModelInstance(viewType, id) {
     const Model = this.getModel(viewType);
     const instance = new Model();
     instance.viewType = viewType;
+    // this.ensureId(viewType, id);
     if (id) {
       instance.setId(id);
     } else {
@@ -101,9 +114,14 @@ class RegisterTable {
     if (instance.initMethod) {
       instance.initMethod();
     }
+    if (instance.isContainer && !instance.style.position) {
+      instance.assignStyle({
+        position: 'relative',
+      });
+    }
     return instance;
   }
 }
 
-
-export default new RegisterTable();
+const registerTable = new RegisterTable();
+export default registerTable;

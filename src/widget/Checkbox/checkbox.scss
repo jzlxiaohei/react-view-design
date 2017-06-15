@@ -1,0 +1,29 @@
+.comp_checkbox-wrapper {
+  display: inline-block;
+  .comp_show-checkbox {
+    display: none;
+  }
+  .checkbox-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border: 2px solid #6f747a;
+    position: relative;
+    margin-right: 5px;
+  }
+
+  .comp_show-checkbox:checked + .checkbox-icon {
+    background: #4fcb19;
+    border: 2px solid #4fcb19;
+    &:before {
+      position: absolute;
+      display: block;
+      content: '\2713';
+      color: #fff;
+      top: -3px;
+      font-size: 14px;
+    }
+  }
+}
+
+

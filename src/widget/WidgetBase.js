@@ -68,9 +68,7 @@ class WidgetBase {
     const attr = {};
     attr.id = attr.id || this.id;
     _.assign(attr, this.getDefaultValueByConfig(this.attrConfig));
-    if (this.isContainer && !style.position) {
-      style.position = 'relative';
-    }
+
     this.assignStyle(style);
 
     this.assignAttr(attr);
@@ -175,14 +173,20 @@ class WidgetBase {
 
   @action
   initByJSON(data = {}) {
-    _.assign(this, _.omit(data, 'children'));
+    this.init();
+    this.assignStyle(data.style);
+    this.assignAttr(data.attr);
+    _.assign(this, _.omit(data, ['children', 'style', 'attr']));
+    registerTable.ensureId(this.viewType, this.id);
     const children = data.children;
-    // TODO: create model..
     this.children = children.map(childJSON => {
       const viewType = childJSON.viewType;
-      const childModel = registerTable.createModelInstance(viewType);
+      const childModel = registerTable.createModelInstance(viewType, childJSON.id);
       childModel.initByJSON(childJSON);
       childModel.parentContainer = this;
+      // if (this.viewType == 'swipe') {
+      //   childModel.notAllowWrap = true;
+      // }
       return childModel;
     });
   }
@@ -195,9 +199,24 @@ class WidgetBase {
     cloneModel.attr = toJS(originModel.attr);
     cloneModel.style = toJS(originModel.style);
     cloneModel.id = registerTable.generateId(viewType);
-    cloneModel.viewType = viewType;
     cloneModel.children = originModel.children.map(c => c.clone());
+    const otherProps = _.omit(originModel, ['attr', 'style', 'id', 'children', 'viewType']);
+    _.forOwn(otherProps, (value, key) => {
+      if (!_.isFunction(value)) {
+        cloneModel[key] = value;
+      }
+    });
     return cloneModel;
+  }
+
+  getAjaxProps(ignoreFields = []) {
+    const result = {};
+    _.forOwn(_.omit(this, ignoreFields), (value, key) => {
+      if (!_.isFunction(value) && !(value instanceof WidgetBase)) {
+        result[key] = value;
+      }
+    });
+    return result;
   }
 
   getJSON() {
@@ -205,6 +224,10 @@ class WidgetBase {
     if (!viewType) {
       throw new Error('model must have viewType');
     }
+    const otherProps = this.getAjaxProps([
+      'attr', 'viewType', 'style', 'id', 'children', 'parentContainer',
+    ]);
+
     return {
       viewType,
       attr: toJS(this.attr),
@@ -212,6 +235,7 @@ class WidgetBase {
       id: this.id,
       children: this.children.map(ch => ch.getJSON()),
       // selected: this.selected,
+      ...otherProps,
     };
   }
 

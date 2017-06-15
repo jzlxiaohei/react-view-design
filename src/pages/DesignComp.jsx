@@ -240,7 +240,7 @@ class DesignComp extends React.Component {
             {this.renderModelTree(this.mainContainer, this.mainContainer.id)}
           </div>
 
-          <div className="phone-simulator-375">
+          <div className="phone-simulator-375" id="real-page-root">
             {this.renderModalArea(this.currentSelectedModel)}
             <div className="scroll-container">
               {this.renderShowArea(this.mainContainer)}
@@ -263,7 +263,7 @@ class DesignComp extends React.Component {
 
   render() {
     return (
-      <Tabs>
+      <Tabs tabPosition="left">
         <TabPane tab="设计" key="1">
           {this.renderDesignTab()}
         </TabPane>
