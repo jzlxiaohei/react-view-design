@@ -27,12 +27,12 @@ function outputFileContent(fileName) {
 require.extensions['.js'] = (m, filename) => {
   const devScriptFilenameReg = /[a-zA-Z0-9_-]+\.entry-script\.js$/;
   if (devScriptFilenameReg.test(filename)) {
-    const content = outputFileContent(filename); // TODO: rollup compile
+    // const content = outputFileContent(filename); // TODO: rollup compile
     // const fsContent = fs.readFileSync(filename).toString();
-    if (process.env.NODE_ENV !== 'production') {
-      delete require.cache[filename];
-    }
-    return m._compile('module.exports = ' + JSON.stringify(content), filename);
+    // if (process.env.NODE_ENV !== 'production') {
+    //   delete require.cache[filename];
+    // }
+    return m._compile('module.exports = ' + JSON.stringify(filename), filename);
   }
   return originJsExtension(m, filename);
 };
