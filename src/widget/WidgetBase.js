@@ -225,7 +225,8 @@ class WidgetBase {
       throw new Error('model must have viewType');
     }
     const otherProps = this.getAjaxProps([
-      'attr', 'viewType', 'style', 'id', 'children', 'parentContainer',
+      'attr', 'viewType', 'style', 'id',
+      'children', 'parentContainer', 'selected',
     ]);
 
     return {

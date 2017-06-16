@@ -21,7 +21,10 @@ class StyleProcessor {
     // });
     const styleObj = styleUtils.appendPx(style);
     const compactStyleObj = _.omitBy(styleObj, (value) => {
-      if (value === '' || value == 0) return true;
+      if (value === '') return true;
+      if (styleObj.position === 'relative' && value == '0') {
+        return true;
+      }
     });
     const styleWithRem = styleUtils.px2rem(compactStyleObj);
     const cssPromise = postcss([autoprefixer]).process(styleWithRem, { parser: postcssJs });
