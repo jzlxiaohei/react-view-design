@@ -57,10 +57,7 @@ function appendPx(style) {
 }
 
 // TODO: 375 => params
-function convertPx2Rem(value, key) {
-  if (_.includes(key, 'border') && !_.includes(key, 'radius')) {
-    return value;
-  }
+function convertPx2Rem(value) {
   if (_.endsWith(value, 'px')) {
     const num = parseFloat(value);
     if (!_.isNumber(num)) {
@@ -77,6 +74,9 @@ function convertPx2Rem(value, key) {
 
 // 要考虑诸如 value 是 10px 0 20px 30px 这样的情况
 function processPx2Rem(value, key) {
+  if (_.includes(key, 'border') && !_.includes(key, 'Radius')) {
+    return value;
+  }
   const remStrList = value
     .split(/\s+/)
     .filter(v => v !== '')

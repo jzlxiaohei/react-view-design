@@ -14,10 +14,10 @@
     text-decoration: none;
     color: #0085ff;
   }
-  #root {
-    position: absolute;
-    top:0; left:0; right:0; bottom: 0;
+  #real-page-root {
     margin: 0 auto;
+    width: 10rem;
+    overflow: hidden;
   }
 
 </style>
@@ -96,7 +96,7 @@
 <body>
   <div id="real-page-root">
   
-        <style>.comp_checkbox-wrapper {
+          <style>.comp_checkbox-wrapper {
   display: inline-block;
 }
 
@@ -123,10 +123,12 @@
   display: block;
   content: '\2713';
   color: #fff;
-  top: -0.08rem;
   font-size: 0.373333rem;
+  height: 100%;
+  width: 100%;
+  line-height: 1;
 }</style>
-        <style>
+          <style>
 #main-container {
 width: 100%;
 min-height: 2.67rem;
@@ -162,6 +164,8 @@ width: 1.28rem;
 position: absolute;
 display: inline-block;
 font-weight: 700;
+top: 0;
+left: 0;
 font-size: 0.37rem
 }
         
@@ -172,7 +176,7 @@ font-size: 0.32rem;
 display: inline-block;
 height: 0.80rem;
 border: none;
-left: 0.05rem
+line-height: 0.80rem
 }
         
 #local-form-item-wrapper-2 {
@@ -189,7 +193,9 @@ width: 1.28rem;
 position: absolute;
 display: inline-block;
 font-weight: 700;
-font-size: 0.37rem
+font-size: 0.37rem;
+top: 0;
+left: 0
 }
         
 #input-2 {
@@ -198,7 +204,8 @@ position: relative;
 font-size: 0.32rem;
 display: inline-block;
 height: 0.80rem;
-border: none
+border: none;
+line-height: 0.80rem
 }
         
 #verify-button {
@@ -213,7 +220,7 @@ text-align: center;
 font-size: 0.32rem;
 top: 0.24rem;
 left: 6.77rem;
-border-radius: 20px
+border-radius: 0.53rem
 }
         
 #local-form-item-wrapper-3 {
@@ -230,7 +237,9 @@ width: 1.28rem;
 position: absolute;
 display: inline-block;
 font-weight: 700;
-font-size: 0.37rem
+font-size: 0.37rem;
+top: 0;
+left: 0
 }
         
 #input-3 {
@@ -239,7 +248,8 @@ position: relative;
 font-size: 0.32rem;
 display: inline-block;
 height: 0.80rem;
-border: none
+border: none;
+line-height: 0.80rem
 }
         
 #local-form-item-wrapper-4 {
@@ -255,7 +265,9 @@ width: 1.28rem;
 position: absolute;
 display: inline-block;
 font-weight: 700;
-font-size: 0.37rem
+font-size: 0.37rem;
+top: 0;
+left: 0
 }
         
 #input-4 {
@@ -264,7 +276,8 @@ position: relative;
 font-size: 0.32rem;
 display: inline-block;
 height: 0.80rem;
-border: none
+border: none;
+line-height: 0.80rem
 }
         
 #container-1 {
@@ -298,7 +311,7 @@ font-size: 0.32rem
 }
         
 #submit-button {
-width: 7.63rem;
+width: 9.07rem;
 color: #fff;
 position: relative;
 height: 1.17rem;
@@ -307,7 +320,7 @@ background-color: #6f747a;
 margin: 0 auto;
 text-align: center;
 font-size: 0.43rem;
-border-radius: 44px;
+border-radius: 1.17rem;
 margin-top: 0.53rem
 }
         
@@ -317,8 +330,11 @@ min-height: 2.67rem;
 height: 4.00rem
 }
         </style>
-        <span><div class="common-widget-container" id="main-container"><span><form class="comp_show-form" id="form-1"><span><div class="comp_form-input-container" id="local-form-item-container-1"><span><div class="comp_show-input-item" id="local-form-item-wrapper-1"><span><label class="comp_show-input-label" id="local-form-label-1">手机</label></span><span><input type="text" class="comp_show-input" id="input-1" placeholder=""/></span></div></span><span><div class="comp_show-input-item" id="local-form-item-wrapper-2"><span><label class="comp_show-input-label" id="local-form-label-2">验证码</label></span><span><input type="text" class="comp_show-input" id="input-2" placeholder=""/></span><span><div class="comp_show-button" id="verify-button">获取验证码</div></span></div></span><span><div class="comp_show-input-item" id="local-form-item-wrapper-3"><span><label class="comp_show-input-label" id="local-form-label-3">昵称</label></span><span><input type="text" class="comp_show-input" id="input-3" placeholder=""/></span></div></span><span><div class="comp_show-input-item" id="local-form-item-wrapper-4"><span><label class="comp_show-input-label" id="local-form-label-4">密码</label></span><span><input type="password" class="comp_show-input" id="input-4" placeholder=""/></span></div></span></div></span><span><div class="common-widget-container" id="container-1"><span><label class="comp_checkbox-wrapper"><input type="checkbox" class="comp_show-checkbox" name="" checked=""/><span class="checkbox-icon" id="checkbox-1"></span><span><span class="comp_show-text" id="test-1"><span class="text">同意</span></span></span></label></span><span><a class="comp_show-link" id="link-1" href=""><span><span class="comp_show-text" id="text-2"><span class="text">《服务使用协议》</span></span></span></a></span></div></span><span><div class="comp_show-button" id="submit-button">完成</div></span></form></span><span><div class="comp_show-picture" id="picture-1"><img src="//cdn.llscdn.com/hybrid/lingome/assets/campaigns/logo.png" style="width:100%;height:100%;" draggable="false"/></div></span></div></span>
-      
+          <style>#real-page-root input:focus {
+  outline: none;
+}</style>
+          <div class="common-widget-container" id="main-container"><form class="comp_show-form" id="form-1"><div class="comp_form-input-container" id="local-form-item-container-1"><div class="comp_show-input-item" id="local-form-item-wrapper-1"><label class="comp_show-input-label" id="local-form-label-1">手机</label><input type="text" class="comp_show-input" id="input-1" placeholder=""/></div><div class="comp_show-input-item" id="local-form-item-wrapper-2"><label class="comp_show-input-label" id="local-form-label-2">验证码</label><input type="text" class="comp_show-input" id="input-2" placeholder=""/><div class="comp_show-button" id="verify-button">获取验证码</div></div><div class="comp_show-input-item" id="local-form-item-wrapper-3"><label class="comp_show-input-label" id="local-form-label-3">昵称</label><input type="text" class="comp_show-input" id="input-3" placeholder=""/></div><div class="comp_show-input-item" id="local-form-item-wrapper-4"><label class="comp_show-input-label" id="local-form-label-4">密码</label><input type="password" class="comp_show-input" id="input-4" placeholder="长度不少于6位"/></div></div><div class="common-widget-container" id="container-1"><label class="comp_checkbox-wrapper"><input type="checkbox" class="comp_show-checkbox" name="" checked=""/><span class="checkbox-icon" id="checkbox-1"></span><span class="comp_show-text" id="test-1"><span class="text">同意</span></span></label><a class="comp_show-link" id="link-1" href=""><span class="comp_show-text" id="text-2"><span class="text">《服务使用协议》</span></span></a></div><div class="comp_show-button" id="submit-button">完成</div></form><div class="comp_show-picture" id="picture-1"><img src="//cdn.llscdn.com/hybrid/lingome/assets/campaigns/logo.png" style="width:100%;height:100%;" draggable="false"/></div></div>
+        
   </div>
   <script src="//cdn.llscdn.com/fe-static/vendor/fastclick.min.js"></script>
   <script>
@@ -329,7 +345,23 @@ height: 4.00rem
     }
   </script>
   <script>
-    
+    (function (exports) {
+function main() {
+  $('#verify-button').click(function() {
+    $.post({
+      url: 'https://apineo.llsapp.com/api/v1/invitations/users/auth_codes',
+      mobile: $('#input-1').val(),
+    }).catch(() => {
+      alert(111);
+    });
+  });
+}
+
+main();
+// const checkedIds = ['submit-button', 'verify-button'];
+
+}((this.NO_MEANING = this.NO_MEANING || {})));
+
   </script>
 </body>
 </html>

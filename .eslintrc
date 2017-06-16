@@ -13,6 +13,7 @@
     }
   },
   "rules": {
+    "func-names": 0,
     "prefer-template": 0,
     "no-console": 0,
     "global-require": 0,

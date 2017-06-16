@@ -5,9 +5,10 @@ import showView, { showViewPropTypes } from 'hoc/showView';
 // import _ from 'lodash';
 import Swipe from 'swipejs';
 import style from './style.scss';
+import script from './swipe.entry-script';
 // @showView({ style })
 
-@showView({ style })
+@showView({ style, script })
 class ShowSwipe extends React.Component {
 
   static propTypes = {
@@ -34,17 +35,9 @@ class ShowSwipe extends React.Component {
       this.swipe.kill();
       this.swipe = null;
     }
-    const { attr, id } = this.props;
+    const id = this.props.id;
     const dom = document.getElementById(id);
-    const swipeOptions = {
-      startSlide: 0,
-      auto: attr.play ? attr.playTime : false,
-      speed: 800,
-      draggable: true,
-      continuous: true,
-      disableScroll: true,
-      stopPropagation: true,
-    };
+    const swipeOptions = this.getSwipeOptions();
     this.swipe = new Swipe(dom, swipeOptions);
   }
 
@@ -55,6 +48,21 @@ class ShowSwipe extends React.Component {
     }
   }
 
+  getSwipeOptions = () => {
+    const attr = this.props.attr;
+    const swipeOptions = {
+      startSlide: 0,
+      auto: attr.play ? attr.playTime : false,
+      speed: 800,
+      draggable: true,
+      continuous: true,
+      disableScroll: true,
+      stopPropagation: true,
+    };
+    return swipeOptions;
+  }
+
+
   render() {
     const props = this.props;
     return (
@@ -64,6 +72,7 @@ class ShowSwipe extends React.Component {
         style={props.style}
         id={props.id}
         {...props.dataAttr}
+        data-swipe-options={JSON.stringify(this.getSwipeOptions())}
       >
         <div className="swipe-wrap">
           {props.modelChildren.map((childModel, index) => this.renderChild(childModel, index))}
