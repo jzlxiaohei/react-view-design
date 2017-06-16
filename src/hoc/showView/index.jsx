@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { observe } from 'mobx';
 import { Icon } from 'antd';
 import _ from 'lodash';
 import { DraggableCore } from 'react-draggable';
@@ -52,7 +51,7 @@ function showView(config = {}) {
       }
 
       static styleText = config.style;
-
+      static scriptFile = config.script;
 
       getProps() {
         const model = this.props.model;
@@ -158,7 +157,7 @@ function showView(config = {}) {
           />
         );
 
-        if (model.notAllowWrap) {
+        if (model.notAllowWrap || this.props.htmlMode !== 'design') {
           return composedComponent;
         }
         const isDraggable = this.isDraggable();
@@ -172,7 +171,7 @@ function showView(config = {}) {
                 onStart={this.handleDragStart}
                 onStop={this.handleDragEnd}
               >
-                <div className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom}>
+                <span className="select-model-drag-wrapper" ref={dom => this.dragContainer = dom}>
                   <div
                     className="drag-handle"
                     style={{
@@ -182,7 +181,7 @@ function showView(config = {}) {
                   >
                     <Icon type="bars" />
                   </div>
-                </div>
+                </span>
               </DraggableCore>
             </span>
           );

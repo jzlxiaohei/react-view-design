@@ -2,38 +2,31 @@ const path = require('path');
 const fsExists = require('fs-exists-sync');
 const fsExtra = require('fs-extra');
 const glob = require('glob');
-const rollup = require('rollup');
-const memory = require('rollup-plugin-memory');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-// const multiEntry =  require('rollup-plugin-multi-entry');
+const compileScript = require('../core/compileScript');
 
 const designFilesDirPath = path.join(__dirname, '../designFiles');
 
-function compileScript(scriptContent) {
-  return rollup.rollup({
-    entry: {
-      path: '',
-      contents: scriptContent,
-    },
-    external: ['jQuery'],
-    plugins: [
-      memory(),
-      // multiEntry(),
-      resolve(),
-      commonjs(),
-    ],
-  }).then((bundle) => {
-    return bundle.generate({
-      format: 'iife',
-      useStrict: false,
-      moduleName: 'NO_MEANING',
-      globals: {
-        jQuery: 'jQuery',
-      },
-    }).code;
-  });
-}
+// function compileScript(entries) {
+//   return rollup.rollup({
+//     entry: entries,
+//     external: ['jQuery'],
+//     plugins: [
+//       // memory(),
+//       multiEntry(),
+//       resolve(),
+//       commonjs(),
+//     ],
+//   }).then((bundle) => {
+//     return bundle.generate({
+//       format: 'iife',
+//       useStrict: false,
+//       moduleName: 'NO_MEANING',
+//       globals: {
+//         jQuery: 'jQuery',
+//       },
+//     }).code;
+//   });
+// }
 
 module.exports = (apiApp) => {
   apiApp.post('/designs', (req, res) => {
@@ -93,8 +86,7 @@ module.exports = (apiApp) => {
     }
     const obj = fsExtra.readJsonSync(fileName);
     if (fsExists(jsFile)) {
-      const jsContent = require(jsFile);
-      return compileScript(jsContent).then()
+      return compileScript([jsFile]).then()
         .then(jsCode => {
           res.json({
             json: obj,
