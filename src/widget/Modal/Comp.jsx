@@ -13,7 +13,7 @@ class ShowModal extends React.Component {
 
   isCurrentModelParent() {
     let selectedModel = this.props.designViewProps.currentSelectedModel;
-    while (selectedModel !== null) {
+    while (selectedModel) {
       if (selectedModel === this.props.model) {
         return true;
       }
@@ -71,17 +71,19 @@ class ShowModal extends React.Component {
     // if (props.attr.containerBg) {
     //   containerStyle.background = props.attr.containerBg;
     // }
-    if (this.isCurrentModelParent()) {
-      // use containerStyle.style.display = 'block' not working !!?
-      setTimeout(() => {
-        const modalDom = this.getModalDom();
-        modalDom.style.display = 'block';
-      }, 0);
-    } else {
-      setTimeout(() => {
-        const modalDom = this.getModalDom();
-        modalDom.style.display = 'none';
-      }, 0);
+    if (!__IS_NODE__) {
+      if (this.isCurrentModelParent()) {
+        // use containerStyle.style.display = 'block' not working !!?
+        setTimeout(() => {
+          const modalDom = this.getModalDom();
+          modalDom.style.display = 'block';
+        }, 0);
+      } else {
+        setTimeout(() => {
+          const modalDom = this.getModalDom();
+          modalDom.style.display = 'none';
+        }, 0);
+      }
     }
     return (
       <div

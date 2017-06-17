@@ -9,21 +9,6 @@ import StyleProcessor from '../utils/StyleProcessor';
 
 registerWidget();
 
-// function getDefaultStyle(rootModel) {
-//   const styleTextMap = {};
-//   const viewType = rootModel.viewType;
-//   const style = registerTable.getShowComp(viewType).styleText;
-//   if (style) {
-//     styleTextMap[viewType] = style;
-//   }
-//   rootModel.children.forEach(child => {
-//     const childStyleTextMap = getDefaultStyle(child);
-//     _.assign(styleTextMap, childStyleTextMap);
-//   });
-
-//   return styleTextMap;
-// }
-
 function getScriptFilesAnsCssText(root) {
   const viewType = root.viewType;
   const ShowComp = registerTable.getShowComp(viewType);

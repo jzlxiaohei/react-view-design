@@ -24,6 +24,13 @@ class DesignList {
     });
   }
 
+  buildHtml(designId) {
+    return this.$request({
+      url: `/designs/${designId}/build`,
+      method: 'post',
+    });
+  }
+
 }
 
 export default DesignList;

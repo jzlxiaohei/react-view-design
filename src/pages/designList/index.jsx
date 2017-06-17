@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { Spin } from 'antd';
+import { Spin, Button, message } from 'antd';
 import { Link } from 'globals/simpleRouter';
 import DesignList from './DesignList';
 
@@ -21,6 +21,15 @@ class DesignListPage extends React.Component {
     this.designList.fetch();
   }
 
+  handelBuildHtml = (designId) => {
+    this.designList.buildHtml(designId)
+    .then(() => {
+      message.success('保存成功');
+    })
+    .catch(() => {
+      message.error('保存失败');
+    });
+  }
 
   render() {
     return (
@@ -30,6 +39,7 @@ class DesignListPage extends React.Component {
           this.designList.list.map((designId) => (
             <div key={designId}>
               <Link to={`/design?designId=${designId}`}>{designId}</Link>
+              <Button onClick={() => this.handelBuildHtml(designId)}>生成html</Button>
             </div>
           ))
         }

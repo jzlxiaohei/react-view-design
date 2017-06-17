@@ -1,3 +1,4 @@
+const path = require('path');
 const Express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -35,6 +36,8 @@ apiServer.get('/uptoken', (req, res) => {
 
 app.use('/api', apiServer);
 initApiRouter(apiServer);
+
+app.use('/static', Express.static(path.join(__dirname, 'designFiles')));
 
 app.listen(config.port, () => {
   console.log('run on:' + config.port);

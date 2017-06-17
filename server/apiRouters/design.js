@@ -1,3 +1,7 @@
+import fs from 'fs';
+import njk from 'nunjucks';
+import buildHtml from '../core/buildHtml';
+
 const path = require('path');
 const fsExists = require('fs-exists-sync');
 const fsExtra = require('fs-extra');
@@ -103,6 +107,58 @@ module.exports = (apiApp) => {
       json: obj,
       css: cssContent,
       js: '',
+    });
+  });
+
+  const commonNjkTpl = fs.readFileSync(path.join(__dirname, '../template.njk')).toString();
+
+
+  apiApp.post('/designs/:designId/build', (req, res) => {
+    const designId = req.params.designId;
+    const workDir = path.join(__dirname, `../designFiles/${designId}`);
+    const designJsonPath = path.join(workDir, 'design.json');
+    if (!fsExists(designJsonPath)) {
+      return res.status(404).json({
+        code: 40400,
+        message: 'designId not exist',
+      });
+    }
+    const dataJson = fsExtra.readJsonSync(path.join(workDir, 'design.json'));
+    let njkTpl = commonNjkTpl;
+    const ownNjkTplPath = path.join(workDir, 'template.njk');
+    if (fsExists(ownNjkTplPath)) {
+      njkTpl = fs.readFileSync(ownNjkTplPath).toString();
+    }
+
+    const jsFile = path.join(workDir, 'index.entry-script.js');
+    let cssContent = '';
+    const cssFilePath = path.join(workDir, 'index.scss');
+    if (fsExists()) {
+      cssContent = require(cssFilePath);
+    }
+    buildHtml(dataJson)
+      .then(result => {
+        const scriptFiles = result.scriptFiles;
+        compileScript([...scriptFiles, jsFile]).then(code => {
+          const html = njk.renderString(njkTpl, {
+            htmlContent: `
+              <style>${result.style.default}</style>
+              <style>${result.style.inline}</style>
+              <style>${cssContent}</style>
+              ${result.html.main}
+            `,
+            scriptText: code,
+            title: `${designId}`,
+          });
+          fsExtra.outputFileSync(path.join(workDir, 'design.html'), html);
+          res.json({
+            message: 'ok',
+          });
+        });
+      })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json(err);
     });
   });
 };

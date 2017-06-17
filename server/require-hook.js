@@ -40,9 +40,10 @@ require.extensions['.js'] = (m, filename) => {
 function hook(compile, extension) {
   require.extensions[extension] = (m, filename) => {
     const tokens = compile(filename);
-    if (process.env.NODE_ENV !== 'production') {
-      delete require.cache[filename];
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   delete require.cache[filename];
+    // }
+    delete require.cache[filename];
     return m._compile('module.exports = ' + JSON.stringify(tokens), filename);
   };
 }
