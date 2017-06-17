@@ -38,7 +38,7 @@ class DesignListPage extends React.Component {
           this.designList.$loading ? <Spin>loading..</Spin> :
           this.designList.list.map((designId) => (
             <div key={designId}>
-              <Link to={`/design?designId=${designId}`}>{designId}</Link>
+              <Link className="mr-10" to={`/design?designId=${designId}`}>{designId}</Link>
               <Button onClick={() => this.handelBuildHtml(designId)}>生成html</Button>
             </div>
           ))
