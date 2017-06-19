@@ -5,7 +5,7 @@
 
 https://jzlxiaohei.github.io/react-view-design/
 
-1. 因为没有server，这里展示的是有些的功能。不能保存，没有二次开发的概念等。
+1. 因为没有server，这里只展示了部分的功能, 不能保存，没有二次开发的概念等。
 2. demo的更新会滞后于代码更新。
 
 # 业务场景
