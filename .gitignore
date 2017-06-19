@@ -46,3 +46,4 @@ node_modules/
 /qrconfig.json
 flow-typed
 .happypack
+docs
