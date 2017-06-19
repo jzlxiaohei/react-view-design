@@ -81,7 +81,7 @@ module.exports = {
 
     path: resolve(__dirname, 'docs'),
 
-    publicPath: '/',
+    publicPath: '/react-view-design',
 
     chunkFilename: devEnv ? '[name].js' : '[name].[chunkhash].js',
     libraryTarget: 'umd',
