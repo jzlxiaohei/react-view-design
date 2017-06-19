@@ -79,7 +79,7 @@ module.exports = {
   output: {
     filename: devEnv ? '[name].js' : '[name].[chunkhash:8].js', // the output bundle
 
-    path: resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'docs'),
 
     publicPath: '/',
 
