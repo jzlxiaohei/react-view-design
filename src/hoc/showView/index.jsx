@@ -86,7 +86,9 @@ function showView(config = {}) {
 
         const otherProps = _.omit(this.props, designViewProps.concat('model'));
         otherProps.onClick = this.handleClick;
-
+        if (this.props.htmlMode == 'design') {
+          otherProps['data-show-view'] = 'design';
+        }
         return {
           otherProps,
           id: model.attr.id || model.id, // attr id first
@@ -133,8 +135,9 @@ function showView(config = {}) {
       }
 
       handleClick = (e) => {
-        if (e.target == e.currentTarget) {
-          // e.stopPropagation();
+        const currentDom = e.currentTarget;
+        if (currentDom.getAttribute('data-show-view') === 'design') {
+          e.stopPropagation();
           this.props.setCurrentSelectedModel(this.props.model);
         }
       }

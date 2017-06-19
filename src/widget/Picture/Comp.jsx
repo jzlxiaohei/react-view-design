@@ -29,9 +29,9 @@ class ShowPicture extends React.Component {
     img.onload = () => {
       model.adjustImgSize({ width: img.width, height: img.height });
     };
-    img.onerror = () => {
-      message.error('获取图片信息失败，请检测url');
-    };
+    // img.onerror = () => {
+    //   message.error('获取图片信息失败，请检测url');
+    // };
     img.src = url;
   }
 
