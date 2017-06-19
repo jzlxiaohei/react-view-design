@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 // import registerTable from 'globals/registerTable';
 import DesignComp from '../DesignComp';
 import DesignModel from '../DesignModel';
+import formDemoJson from '../../../server/designFiles/demo-form/design.json';
 
 @observer
 class DesignPage extends React.Component {
@@ -12,10 +13,7 @@ class DesignPage extends React.Component {
     super();
     this.designModel = new DesignModel();
     this.designModel.setDesignId('demo-form');
-  }
-
-  componentDidMount() {
-    this.designModel.fetch();
+    this.designModel.initModel(formDemoJson);
   }
 
   render() {

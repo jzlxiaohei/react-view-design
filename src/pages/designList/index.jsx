@@ -34,15 +34,8 @@ class DesignListPage extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.designList.$loading ? <Spin>loading..</Spin> :
-          this.designList.list.map((designId) => (
-            <div key={designId}>
-              <Link className="mr-10" to={`/design?designId=${designId}`}>{designId}</Link>
-              <Button onClick={() => this.handelBuildHtml(designId)}>生成html</Button>
-            </div>
-          ))
-        }
+        <Link className="mr-10" to="/design">simple</Link>
+        <Link className="mr-10" to="/demo-form">form</Link>
       </div>
     );
   }

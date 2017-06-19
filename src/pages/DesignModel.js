@@ -23,6 +23,15 @@ class DesignModel {
     return this;
   }
 
+  @action
+  initModel(json) {
+    registerTable.initIdGenerator(json.idGenerator);
+    this.mainContainer.initByJSON(json.mainContainer);
+    this.modalListContainer.initByJSON(json.modalListContainer);
+    this.designId = json.designId;
+    this.note = json.note;
+  }
+
   fetch() {
     if (!this.designId) {
       return Promise.reject('DesignModel fetch data: designId required');
@@ -32,11 +41,7 @@ class DesignModel {
       url: `/designs/${this.designId}`,
     }).then((data) => {
       const json = data.json;
-      registerTable.initIdGenerator(json.idGenerator);
-      this.mainContainer.initByJSON(json.mainContainer);
-      this.modalListContainer.initByJSON(json.modalListContainer);
-      this.designId = json.designId;
-      this.note = json.note;
+      this.initModel(json);
       const js = data.js;
       const css = data.css;
       this.createScriptAndStyle(js, css);

@@ -141,31 +141,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.yml$/,
-        use: 'raw-loader',
-        include: resolve(__dirname, 'src'),
+        test: /\.json$/,
+        use: 'json-loader',
       }, {
         test: /\.html$/,
         use: 'raw-loader',
-        include: resolve(__dirname, 'src'),
-      }, {
-        test: /\.action\.js/,
-        use: [
-          'null-loader',
-        ],
-        include: resolve(__dirname, 'src'),
-      }, {
-        test: /\.action\.scss$/,
-        use: [
-          'null-loader',
-        ],
         include: resolve(__dirname, 'src'),
       }, {
         test: /\.(js|jsx)$/,
         use: [
           'happypack/loader?id=jsx',
         ],
-        exclude: /\.action.js$/,
         include: resolve(__dirname, 'src'),
       }, {
         test: /\.css$/,
@@ -176,7 +162,6 @@ module.exports = {
         ],
       }, {
         test: /\.scss$/,
-        exclude: /\.action.scss$/,
         use: [
           'style-loader',
           'css-loader?importLoaders=1',

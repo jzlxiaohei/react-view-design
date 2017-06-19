@@ -7,7 +7,7 @@
     "start": "rm -rf .happypack && webpack-dev-server",
     "server": "nodemon --watch server ./server",
     "test": "NODE_ENV=test mocha src/**/*.test.{js,jsx} test/setup.js",
-    "build": "NODE_ENV=production webpack"
+    "build": "rm -rf dist && NODE_ENV=production webpack"
   },
   "author": "",
   "license": "ISC",
@@ -44,6 +44,7 @@
     "ignore-styles": "^5.0.1",
     "jsdom": "9.10.0",
     "jsdom-global": "2.1.1",
+    "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "mock-require": "^2.0.1",
     "node-sass": "^4.1.0",
