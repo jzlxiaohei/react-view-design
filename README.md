@@ -61,7 +61,7 @@
 
 # 特点
 1. 生成html。 虽然使用项目的时候使用`react + mobx + ant-design`, 但是最终生产的是纯html + 预定义js/css,不依赖react生态
-2. 设计事，使用可以直接使用数字(或者加px，效果一样)设置类似`宽度`这样的属性，生成的`html`使用`rem`，解决适配问题。但是这种情况下会有些假设，比如`lineHeight`会自动把设计数字，自动加上rem，但是`lineHeight`本身是允许无单位值的；因为h5上 1px 线问题，所以`border`的px不会转 rem，如果这些假设和你的情况不符，通过二次开发进行覆盖。
+2. 设计时，可以直接使用数字(或者加px，效果一样)设置类似`宽度`这样的属性，生成的`html`使用`rem`，解决适配问题。但是这种情况下会有些假设，比如`lineHeight`会自动把设计数字，自动加上rem，但是`lineHeight`本身是允许无单位值的；因为h5上 1px 线问题，所以`border`的px不会转 rem，如果这些假设和你的情况不符，通过二次开发进行覆盖。
 3. 可以进行二次开发。设计完成后，保存会生成一个 `design.json` 文件（参考 `server/designFiles/demo-form/design.json`）。可以在这个json文件所在目录下，编写`index.entry-script.js`注入js，添加业务逻辑；编写`index.scss`注入css，修改样式
 4. 生成的代码有一定的维护性, 生成的结构大致如下（如果使用默认的生成模板）
 
