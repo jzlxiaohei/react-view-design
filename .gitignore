@@ -45,6 +45,5 @@ node_modules/
 *.swp
 /qrconfig-assets.json
 /qrconfig.json
-dist
 flow-typed
 .happypack
